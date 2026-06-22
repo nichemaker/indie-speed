@@ -22,6 +22,7 @@ const staticPaths: { path: string; lastmod: string | null }[] = [
 const SLUG_MAP: Record<string, string> = {
   'minecraft-wr': '/speedruns/minecraft-speedrun-world-record/',
   'silksong-speedrun': '/speedruns/silksong-speedrun/',
+  'sm64-wr': '/speedruns/super-mario-64-speedrun/',
 };
 
 export const GET: APIRoute = async () => {

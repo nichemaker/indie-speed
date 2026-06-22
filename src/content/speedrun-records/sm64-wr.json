@@ -1,0 +1,71 @@
+{
+  "game": "Super Mario 64",
+  "as_of": "2026-06-22",
+  "updatedAt": "2026-06-22",
+  "headline": {
+    "category": "0 Star (Any%)",
+    "time": "6:14.19",
+    "runner": "Suigi",
+    "date": "2025-12-30",
+    "verified": true
+  },
+  "videoId": "oowWfsv5B1s",
+  "records": [
+    {
+      "category": "0 Star",
+      "subcategory": "Any%",
+      "time": "6:14.19",
+      "runner": "Suigi",
+      "date": "2025-12-30",
+      "sourceUrl": "https://www.speedrun.com/sm64",
+      "videoUrl": "https://www.youtube.com/watch?v=oowWfsv5B1s",
+      "verified": true,
+      "as_of": "2026-06-22",
+      "notes": "Also known as Any%. Uses BLJ (Backwards Long Jump) to bypass star gates entirely."
+    },
+    {
+      "category": "1 Star",
+      "time": "6:53.68",
+      "runner": "Suigi",
+      "date": "2026-01-14",
+      "sourceUrl": "https://www.speedrun.com/sm64",
+      "videoUrl": "https://www.youtube.com/watch?v=sPwRlYBymLM",
+      "verified": true,
+      "as_of": "2026-06-22",
+      "notes": "Collect exactly 1 Power Star before the final Bowser fight. No BLJ."
+    },
+    {
+      "category": "16 Star",
+      "time": "14:35.50",
+      "runner": "Suigi",
+      "date": "2023-03-22",
+      "sourceUrl": "https://www.speedrun.com/sm64",
+      "videoUrl": "https://youtu.be/1_vkwkniHuI",
+      "verified": true,
+      "as_of": "2026-06-22",
+      "notes": "Most popular competitive category by run count. Record has stood since March 2023."
+    },
+    {
+      "category": "70 Star",
+      "time": "46:11",
+      "runner": "Suigi",
+      "date": "2026-02-17",
+      "sourceUrl": "https://www.speedrun.com/sm64",
+      "videoUrl": "https://youtu.be/LeBjV2m6SJY",
+      "verified": true,
+      "as_of": "2026-06-22",
+      "notes": "Collect 70 of 120 Power Stars."
+    },
+    {
+      "category": "120 Star",
+      "time": "1:35:14",
+      "runner": "Suigi",
+      "date": "2026-04-26",
+      "sourceUrl": "https://www.speedrun.com/sm64",
+      "videoUrl": "https://youtu.be/KboxS9NNFJM",
+      "verified": true,
+      "as_of": "2026-06-22",
+      "notes": "Full completion — all 120 Power Stars."
+    }
+  ]
+}

@@ -1,0 +1,441 @@
+---
+import { getEntry } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const SITE = 'https://www.indiespeedrun.com';
+const record = await getEntry('speedrun-records', 'sm64-wr');
+const { headline, records, updatedAt, as_of, videoId } = record.data;
+const verifiedRecords = records.filter(r => r.verified);
+
+const breadcrumbs = [
+  { name: 'Home', url: SITE + '/' },
+  { name: 'Speedruns', url: SITE + '/speedruns/' },
+  { name: 'Super Mario 64 WR', url: SITE + '/speedruns/super-mario-64-speedrun/' },
+];
+
+const paaQA = [
+  {
+    q: 'Is SM64 speedrunning dead?',
+    a: `Super Mario 64 speedrunning is not dead, but the top of the leaderboard has become extremely difficult to compete in. As of our June 2026 verification, Suigi holds all five main-category world records (0 Star, 1 Star, 16 Star, 70 Star, and 120 Star). The 16 Star record has stood since March 2023 — over three years without improvement. Community discussion of the scene being "dead" reflects how hard these records are to beat rather than a lack of interest. Many runners still compete at lower positions on the speedrun.com/sm64 leaderboard.`,
+  },
+  {
+    q: 'Is Super Mario 64 the most speedrun game?',
+    a: `Super Mario 64 has historically been among the most-submitted games on speedrun.com and has been recognised by Guinness World Records in connection with its speedrunning community. Whether it holds the top position at any given moment depends on the metric — run submissions, active runner count, or live viewership — and changes over time. SM64 remains a landmark speedgame and consistently draws strong participation at major charity events like Games Done Quick.`,
+  },
+  {
+    q: 'How fast can you beat Mario 64?',
+    a: `The fastest verified human completion under 0 Star (Any%) rules is 6:14.19, set by Suigi on 2025-12-30. This category uses BLJ (Backwards Long Jump) to skip star collection entirely and reach the final Bowser fight. A 120 Star (all stars) world record stands at 1:35:14, also held by Suigi as of April 2026. A first-time casual player typically takes 15–20 hours to collect enough stars to complete the game.`,
+  },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Super Mario 64 Speedrun World Records — All 5 Categories, Verified Times',
+  description:
+    'Current Super Mario 64 speedrun world records for 0 Star (Any%), 1 Star, 16 Star, 70 Star, and 120 Star. All five categories held by Suigi. Sourced and verified from speedrun.com.',
+  dateModified: updatedAt,
+  author: { '@type': 'Organization', name: 'IndieSpeedRun', url: SITE },
+  publisher: {
+    '@type': 'Organization',
+    name: 'IndieSpeedRun',
+    url: SITE,
+    logo: { '@type': 'ImageObject', url: `${SITE}/og-image.png` },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': `${SITE}/speedruns/super-mario-64-speedrun/`,
+  },
+  sourceOrganization: {
+    '@type': 'Organization',
+    name: 'speedrun.com',
+    url: 'https://www.speedrun.com',
+  },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: paaQA.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+};
+---
+
+<Base
+  title="Super Mario 64 Speedrun World Records — 0 Star, 16 Star & More (2026)"
+  description="Current Super Mario 64 speedrun world records: 0 Star Any% (6:14.19), 1 Star, 16 Star, 70 Star, 120 Star. All five categories held by Suigi. Verified from speedrun.com, June 2026."
+  canonicalPath="/speedruns/super-mario-64-speedrun/"
+  ogType="article"
+  breadcrumbs={breadcrumbs}
+  jsonLd={[articleSchema, faqSchema]}
+>
+  <div class="max-w-4xl mx-auto px-4 py-8">
+
+    <nav class="text-sm text-gray-400 mb-8 flex gap-2 flex-wrap">
+      <a href="/" class="hover:text-gray-300">Home</a>
+      <span>/</span>
+      <a href="/speedruns/" class="hover:text-gray-300">Speedruns</a>
+      <span>/</span>
+      <span class="text-gray-300">Super Mario 64 WR</span>
+    </nav>
+
+    <!-- ============================================================ -->
+    <!-- HERO: Headline record + Updated stamp                         -->
+    <!-- ============================================================ -->
+    <div class="mb-10">
+      <h1 class="text-3xl font-bold text-white mb-2">Super Mario 64 Speedrun World Records</h1>
+
+      <div class="flex items-center gap-3 mb-6 flex-wrap">
+        <span class="text-xs font-semibold text-gray-400 bg-gray-800 border border-gray-700 rounded-full px-3 py-1">
+          Last verified {new Date(updatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </span>
+        <span class="text-xs text-gray-400">Source: <a href="https://www.speedrun.com/sm64" target="_blank" rel="noopener" class="underline underline-offset-2 hover:text-gray-300">speedrun.com/sm64</a></span>
+      </div>
+
+      <!-- 0 Star headline stat block -->
+      <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <div class="text-xs font-semibold text-indigo-400 uppercase tracking-wider mb-3">{headline.category} — headline record</div>
+
+        {headline.verified ? (
+          <div>
+            <div class="flex flex-wrap gap-6 items-start mb-3">
+              <div>
+                <div class="text-xs text-gray-400 mb-1">RTA <span class="text-gray-400 font-normal">(ranked)</span></div>
+                <div class="text-3xl font-bold font-mono text-white">{headline.time}</div>
+              </div>
+              <div>
+                <div class="text-xs text-gray-400 mb-1">Runner</div>
+                <div class="text-xl font-semibold text-white">{headline.runner}</div>
+              </div>
+              <div>
+                <div class="text-xs text-gray-400 mb-1">Standing since</div>
+                <div class="text-gray-300">{new Date(headline.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+              </div>
+            </div>
+            <p class="text-xs text-gray-400">
+              RTA (Real Time Attack) is the ranked timing method on speedrun.com/sm64 — measured from first input on the title screen to the final hit on Bowser.
+              <a href="https://www.speedrun.com/sm64" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300 ml-1">View leaderboard ↗</a>
+            </p>
+          </div>
+        ) : (
+          <div class="flex items-center gap-2 bg-amber-950/40 border border-amber-800/50 rounded-lg px-4 py-3">
+            <span class="text-amber-400 text-sm font-semibold">⚠ No verified headline record yet</span>
+            <span class="text-amber-400 text-xs">— check speedrun.com/sm64</span>
+          </div>
+        )}
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- BODY COPY                                                      -->
+    <!-- ============================================================ -->
+    <div class="space-y-14 text-gray-300">
+
+      <!-- ── What is the WR? ── -->
+      <section aria-labelledby="what-is-wr">
+        <h2 id="what-is-wr" class="text-2xl font-bold text-white mb-4">What is the Super Mario 64 speedrun world record?</h2>
+        <p class="mb-3">
+          The headline Super Mario 64 speedrun world record is the <strong class="text-gray-100">0 Star (Any%) record of 6:14.19</strong>, set by Suigi on December 30, 2025 and verified at <a href="https://www.speedrun.com/sm64" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">speedrun.com/sm64</a>. The 0 Star category — also called Any% — completes the game without collecting a single Power Star, using the BLJ (Backwards Long Jump) technique to bypass the game's star-gate doors and reach the final boss directly.
+        </p>
+        <p>
+          SM64 tracks five main categories on speedrun.com, each defined by how many Power Stars must be collected before the game's credits can be triggered. As of June 2026, <strong class="text-gray-100">Suigi holds all five category world records simultaneously</strong>.
+        </p>
+      </section>
+
+      <!-- ── Records table + H3s ── -->
+      <section aria-labelledby="records-table">
+        <h2 id="records-table" class="text-2xl font-bold text-white mb-2">SM64 world records by category</h2>
+        <p class="text-gray-400 text-sm mb-4">
+          Verified against <a href="https://www.speedrun.com/sm64" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">speedrun.com/sm64</a> as of {new Date(as_of).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}.
+        </p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse" aria-label="Super Mario 64 speedrun world records by category">
+            <thead>
+              <tr class="border-b border-gray-700">
+                <th scope="col" class="pb-3 pr-4 text-left text-xs text-gray-400 font-semibold">Category</th>
+                <th scope="col" class="pb-3 pr-4 text-left text-xs text-gray-400 font-mono font-semibold">RTA <span class="font-sans font-normal">(ranked)</span></th>
+                <th scope="col" class="pb-3 pr-4 text-left text-xs text-gray-400 font-semibold">Runner</th>
+                <th scope="col" class="pb-3 pr-4 text-left text-xs text-gray-400 font-semibold">Date set</th>
+                <th scope="col" class="pb-3 pr-4 text-left text-xs text-gray-400 font-semibold">Video</th>
+                <th scope="col" class="pb-3 text-left text-xs text-gray-400 font-semibold">Leaderboard</th>
+              </tr>
+            </thead>
+            <tbody>
+              {verifiedRecords.map((r) => (
+                <tr class="border-b border-gray-800">
+                  <td class="py-3 pr-4 text-gray-200 font-medium">
+                    {r.category}
+                    {r.subcategory && <span class="text-gray-400 font-normal ml-1 text-xs">({r.subcategory})</span>}
+                  </td>
+                  <td class="py-3 pr-4 font-mono font-semibold text-white">{r.time}</td>
+                  <td class="py-3 pr-4 text-gray-200">{r.runner}</td>
+                  <td class="py-3 pr-4 text-gray-300">{r.date}</td>
+                  <td class="py-3 pr-4">
+                    {r.videoUrl
+                      ? <a href={r.videoUrl} target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300 text-xs">Watch ↗</a>
+                      : <span class="text-gray-600">—</span>
+                    }
+                  </td>
+                  <td class="py-3">
+                    <a href={r.sourceUrl} target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300 text-xs">speedrun.com ↗</a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="text-xs text-gray-400 mt-3 mb-12">
+          Editorial standards: how we verify figures and what "pending" means — <a href="/methodology/" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">our methodology</a>.
+        </p>
+
+        <!-- H3 per category -->
+        <div class="space-y-10">
+
+          <div>
+            <h3 id="zero-star" class="text-xl font-semibold text-white mb-3">0 Star (Any%) record</h3>
+            <p class="mb-3">
+              <strong class="text-gray-100">6:14.19 — Suigi, 2025-12-30.</strong> Also called Any%, this category requires no Power Stars at all. The runner uses BLJ (Backwards Long Jump) to clip through the locked castle doors that normally require 70 stars, reaching Bowser in the Sky directly without ever entering a course. Without BLJ, those doors cannot open. The technique and its routing implications are covered in the categories section below.
+            </p>
+            <p class="text-sm text-gray-400">
+              <a href="https://www.youtube.com/watch?v=oowWfsv5B1s" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">Watch the run ↗</a> · <a href="https://www.speedrun.com/sm64" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">speedrun.com/sm64 ↗</a>
+            </p>
+          </div>
+
+          <div>
+            <h3 id="one-star" class="text-xl font-semibold text-white mb-3">1 Star record</h3>
+            <p class="mb-3">
+              <strong class="text-gray-100">6:53.68 — Suigi, 2026-01-14.</strong> This category collects exactly one Power Star — the minimum needed for a castle-basement route that reaches the final Bowser fight without BLJ. Though 39 seconds slower than 0 Star, the routing is fundamentally different: the path through the castle takes a distinct sequence using a single star key to bypass the main 70-star gate via an alternative passage.
+            </p>
+            <p class="text-sm text-gray-400">
+              <a href="https://www.youtube.com/watch?v=sPwRlYBymLM" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">Watch the run ↗</a> · <a href="https://www.speedrun.com/sm64" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">speedrun.com/sm64 ↗</a>
+            </p>
+          </div>
+
+          <div>
+            <h3 id="sixteen-star" class="text-xl font-semibold text-white mb-3">16 Star record — most popular competitive category</h3>
+            <p class="mb-3">
+              <strong class="text-gray-100">14:35.50 — Suigi, 2023-03-22.</strong> By run count on speedrun.com, 16 Star is the most-competed Super Mario 64 category. Runners collect 16 specific Power Stars across multiple courses to satisfy the game's gate system, then complete all three Bowser fights in sequence. The category balances accessibility (runs run ~15 minutes) with strategic depth — which 16 stars to collect and in what order is an active routing question.
+            </p>
+            <p class="mb-3">
+              This record has stood since <strong class="text-gray-100">March 2023</strong> — over three years as of June 2026. Its longevity reflects how optimised the category has become: marginal improvements are now measured in fractions of a second and execution margins are nearly zero.
+            </p>
+            <p class="text-sm text-gray-400">
+              <a href="https://youtu.be/1_vkwkniHuI" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">Watch the run ↗</a> · <a href="https://www.speedrun.com/sm64" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">speedrun.com/sm64 ↗</a>
+            </p>
+          </div>
+
+          <div>
+            <h3 id="seventy-star" class="text-xl font-semibold text-white mb-3">70 Star record</h3>
+            <p class="mb-3">
+              <strong class="text-gray-100">46:11 — Suigi, 2026-02-17.</strong> Collecting 70 of the game's 120 Power Stars fully opens the path to Bowser in the Sky without any gate exploits. 70 Star is a longer format — close to the 50-minute mark — requiring strategic planning across most of the game's main courses. Runners must identify the fastest combination of 70 stars while avoiding time-costly detours.
+            </p>
+            <p class="text-sm text-gray-400">
+              <a href="https://youtu.be/LeBjV2m6SJY" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">Watch the run ↗</a> · <a href="https://www.speedrun.com/sm64" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">speedrun.com/sm64 ↗</a>
+            </p>
+          </div>
+
+          <div>
+            <h3 id="one-twenty-star" class="text-xl font-semibold text-white mb-3">120 Star record</h3>
+            <p class="mb-3">
+              <strong class="text-gray-100">1:35:14 — Suigi, 2026-04-26.</strong> Full completion — all 120 Power Stars across all 15 main courses, cap-stage bonus levels, and Bowser fights, plus the rooftop area that becomes accessible after collecting every star. The longest category demands encyclopaedic knowledge of every star's location and the optimal collection order. At 95+ minutes, runs require sustained focus across the entire game.
+            </p>
+            <p class="text-sm text-gray-400">
+              <a href="https://youtu.be/KboxS9NNFJM" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">Watch the run ↗</a> · <a href="https://www.speedrun.com/sm64" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">speedrun.com/sm64 ↗</a>
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── What do the categories mean? ── -->
+      <section aria-labelledby="categories">
+        <h2 id="categories" class="text-2xl font-bold text-white mb-4">What do the SM64 categories mean?</h2>
+        <p class="mb-6 text-gray-400">Super Mario 64's speedrun categories are defined by how many Power Stars the runner must collect before the game's star-gate doors allow access to the final boss.</p>
+
+        <div class="space-y-8">
+
+          <div>
+            <h3 id="gate-system" class="text-xl font-semibold text-white mb-3">The star-gate system</h3>
+            <p class="mb-3">
+              Peach's Castle contains locked star doors — barriers that open only when Mario has collected a minimum number of Power Stars. The critical gate for the final boss fight (Bowser in the Sky) normally requires <strong class="text-gray-100">70 stars</strong>. This is why 70 Star is the natural full-progression category.
+            </p>
+            <p>
+              SM64 has <strong class="text-gray-100">120 Power Stars</strong> in total: six stars in each of 15 main courses, stars in the three Bowser fight stages, and several bonus areas. Categories below 70 Star exploit specific routes or physics that bypass one or more of these gates.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="blj" class="text-xl font-semibold text-white mb-3">What is BLJ (Backwards Long Jump)?</h3>
+            <p class="mb-3">
+              BLJ — Backwards Long Jump — is a physics exploit discovered by the SM64 speedrunning community. When Mario performs a long jump while facing away from a slope (most famously the stairs inside Peach's Castle), his speed compounds with each successive jump beyond the game's normal speed cap. At sufficient speed, the game's collision checks fail to keep pace with Mario's position — he effectively passes through the locked door barrier.
+            </p>
+            <p>
+              This is what makes 0 Star possible: BLJ lets the runner clip past both the 30-star door and the 70-star door inside the castle without ever entering a course. The technique is precise but fully reproducible, and which staircases to BLJ on is now a fully optimised routing question.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="category-breakdown" class="text-xl font-semibold text-white mb-3">Why 0, 1, 16, 70, and 120?</h3>
+            <p class="mb-3">The five main categories represent the natural breakpoints in SM64's gate system:</p>
+            <ul class="list-disc list-inside space-y-2 text-sm mb-3">
+              <li><strong class="text-gray-100">0 Star</strong>: BLJ bypasses all star gates — zero stars required.</li>
+              <li><strong class="text-gray-100">1 Star</strong>: One specific star unlocks a route through the castle basement that avoids BLJ while still reaching the final boss via an alternative path.</li>
+              <li><strong class="text-gray-100">16 Star</strong>: 16 stars satisfy the prerequisites for all three Bowser fights in sequence. Gate-efficient and well-optimised — the highest-participation category.</li>
+              <li><strong class="text-gray-100">70 Star</strong>: The natural "minimum for the final boss without exploits" — opening all castle star doors legitimately.</li>
+              <li><strong class="text-gray-100">120 Star</strong>: Complete the game fully. All stars, all courses, all bonus areas.</li>
+            </ul>
+            <p class="text-sm text-gray-400">Extension categories (30 Star, 50 Star) also exist on speedrun.com but are less competed. The five above are the main leaderboards.</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── Is SM64 speedrunning dead? ── -->
+      <section aria-labelledby="is-dead">
+        <h2 id="is-dead" class="text-2xl font-bold text-white mb-4">Is SM64 speedrunning dead?</h2>
+        <p class="mb-3">
+          Super Mario 64 speedrunning is not dead, but the gap between Suigi and the rest of the competition is large enough that the question comes up regularly. As of June 2026, <strong class="text-gray-100">Suigi holds all five main-category world records simultaneously</strong> — 0 Star, 1 Star, 16 Star, 70 Star, and 120 Star. This level of across-the-board dominance is unusual in any major speedgame.
+        </p>
+        <p class="mb-3">
+          The 16 Star record has stood since <strong class="text-gray-100">March 22, 2023</strong> — over three years without improvement. Community discussion has included reported bounties organised by the SM64 community for whoever can beat the 16-star record; we do not cite specific figures as these are informal initiatives that change. Despite this, the record has held.
+        </p>
+        <p class="mb-3">
+          The 0 Star, 1 Star, 70 Star, and 120 Star records are more recent (set between late 2025 and April 2026), indicating Suigi is still actively improving his own marks across categories. The scene below the top remains active — speedrun.com/sm64 lists hundreds of runners per category — but whether anyone can match Suigi at the elite level is an open question in the community.
+        </p>
+        <p>
+          For current leaderboard activity and runner counts, see <a href="https://www.speedrun.com/sm64" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">speedrun.com/sm64</a>.
+        </p>
+      </section>
+
+      <!-- ── Most speedrun game? ── -->
+      <section aria-labelledby="most-speedrun">
+        <h2 id="most-speedrun" class="text-2xl font-bold text-white mb-4">Is Super Mario 64 the most speedrun game?</h2>
+        <p class="mb-3">
+          Super Mario 64 has historically been among the most-submitted games on speedrun.com and has been recognised by <strong class="text-gray-100">Guinness World Records</strong> in connection with its speedrunning community. Whether it holds the top position at any given moment depends on the metric — run submissions, active runner count, or live viewership — and changes over time as other games build competitive scenes.
+        </p>
+        <p class="mb-3">
+          SM64's speedrunning heritage runs unusually deep: the BLJ technique was discovered in the early community era, and SM64 has appeared at major charity events like Games Done Quick since the event's earliest years. The community processes developed for SM64 — documenting exploits, building routing consensus, organising category standards — influenced how speedrunning culture approached subsequent games.
+        </p>
+        <p>
+          What is not disputed is that SM64 defined much of modern speedrunning as a competitive and community practice. Whether it is the single most-speedrun game at any given moment is a metric question; its place in the history of the discipline is not.
+        </p>
+      </section>
+
+      <!-- ── How fast can you beat Mario 64? ── -->
+      <section aria-labelledby="how-fast">
+        <h2 id="how-fast" class="text-2xl font-bold text-white mb-4">How fast can you beat Mario 64?</h2>
+        <p class="mb-3">
+          The fastest verified human completion of Super Mario 64 is the <strong class="text-gray-100">0 Star (Any%) world record of 6:14.19</strong>, set by Suigi on December 30, 2025 — under seven minutes from title screen to final Bowser hit. This uses BLJ to skip star-collection requirements entirely.
+        </p>
+        <p class="mb-3">
+          For full-game completion, the <strong class="text-gray-100">120 Star world record is 1:35:14</strong>, also held by Suigi as of April 2026. That covers all 120 Power Stars — every course, every bonus area.
+        </p>
+        <p class="mb-3">
+          A Tool-Assisted Speedrun (TAS) would be faster still — TAS uses frame-advance and scripted inputs on emulator to achieve execution no human can replicate in real time. TAS records are tracked separately at <a href="https://tasvideos.org" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">TASVideos.org</a> and are not comparable to the human records on this page.
+        </p>
+        <p>
+          A first-time casual player typically takes 15–20 hours to collect enough stars (70 are needed for the standard credits path) and reach the ending. The contrast between a 6-minute Any% and a 15-hour first playthrough illustrates what BLJ and years of route optimisation compress out of a run.
+        </p>
+      </section>
+
+      <!-- ── Beyond the main 5 ── -->
+      <section aria-labelledby="beyond-main">
+        <h2 id="beyond-main" class="text-2xl font-bold text-white mb-4">Beyond the main 5 — extension categories</h2>
+        <p class="mb-4">
+          speedrun.com/sm64 hosts additional categories beyond the five main ones. These are less competed but well-documented:
+        </p>
+        <ul class="list-disc list-inside space-y-2 text-sm mb-6 text-gray-300">
+          <li><strong class="text-gray-100">30 Star, 50 Star</strong>: Intermediate star-count categories between 16 Star and 70 Star, each with their own routing optimisations and smaller leaderboards.</li>
+          <li><strong class="text-gray-100">Blindfolded</strong>: Completed without any visual feedback — screen obscured, runner navigates entirely by memory and audio cues. A genuine human achievement tracked separately from the main leaderboards.</li>
+          <li><strong class="text-gray-100">Mario-Cam</strong>: The run is completed using only the in-game close-up camera view, restricting spatial awareness and requiring adapted techniques.</li>
+        </ul>
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-4 text-sm">
+          <p class="text-amber-400 font-semibold mb-1">TAS ≠ Human WR</p>
+          <p class="text-gray-400">Tool-Assisted Speedruns achieve times faster than any human record — using frame-advance and scripted inputs on emulator, not real-time execution. TAS is explicitly not eligible for speedrun.com's human leaderboards. All records on this page are human-only. TAS records for SM64 are documented on <a href="https://tasvideos.org" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">TASVideos.org</a>.</p>
+        </div>
+      </section>
+
+      <!-- ── Video embed ── -->
+      <section aria-labelledby="watch">
+        <h2 id="watch" class="text-2xl font-bold text-white mb-4">Watch the 0 Star world record run</h2>
+        <p class="text-gray-400 mb-4 text-sm">Suigi's 6:14.19 world record — 0 Star (Any%), set December 30, 2025.</p>
+
+        {videoId ? (
+          <div class="relative w-full bg-gray-900 rounded-xl overflow-hidden border border-gray-800" style="aspect-ratio: 16/9;">
+            <button
+              id="video-play"
+              class="absolute inset-0 w-full h-full flex flex-col items-center justify-center cursor-pointer group"
+              aria-label="Watch Suigi's SM64 0 Star world record on YouTube"
+              data-videoid={videoId}
+            >
+              <img
+                src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+                alt="Thumbnail for Suigi's Super Mario 64 0 Star world record run"
+                class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-70 transition-opacity"
+                loading="lazy"
+                width="1280"
+                height="720"
+              />
+              <div class="relative z-10 w-16 h-16 rounded-full bg-red-600 hover:bg-red-500 flex items-center justify-center transition-colors shadow-lg">
+                <span class="text-white text-2xl pl-1" aria-hidden="true">▶</span>
+              </div>
+              <span class="relative z-10 text-white text-sm font-medium mt-3 bg-black/60 px-3 py-1 rounded">Watch on YouTube</span>
+            </button>
+            <iframe id="video-frame" class="hidden w-full h-full" title="Suigi's Super Mario 64 0 Star world record run" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        ) : (
+          <div class="w-full bg-gray-900 border border-gray-800 rounded-xl flex items-center justify-center" style="aspect-ratio: 16/9; max-height: 360px;">
+            <div class="text-center px-8">
+              <div class="text-gray-600 text-4xl mb-3">▶</div>
+              <p class="text-gray-400 text-sm">Video pending — check speedrun.com/sm64 for the current verified run.</p>
+              <a href="https://www.speedrun.com/sm64" target="_blank" rel="noopener" class="inline-block mt-3 text-indigo-400 underline underline-offset-2 hover:text-indigo-300 text-sm">View leaderboard on speedrun.com ↗</a>
+            </div>
+          </div>
+        )}
+      </section>
+
+      <!-- ── PAA ── -->
+      <section aria-labelledby="paa">
+        <h2 id="paa" class="text-2xl font-bold text-white mb-6">People also ask</h2>
+        <div class="space-y-6">
+          {paaQA.map(({ q, a }) => (
+            <div class="border border-gray-800 rounded-xl p-5">
+              <h3 class="text-base font-semibold text-white mb-2">{q}</h3>
+              <p class="text-gray-400 text-sm leading-relaxed">{a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- ── Internal links / next steps ── -->
+      <section aria-labelledby="next" class="border-t border-gray-800 pt-10">
+        <h2 id="next" class="text-xl font-bold text-white mb-4">Time your own SM64 runs</h2>
+        <p class="mb-4">
+          Getting into SM64 speedrunning? The <a href="/speedrun-timer/" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">free speedrun timer on this site</a> handles named splits (Bowser 1, Bowser 2, Bowser in the Sky), PB comparison, and hotkeys — no account, no install, works offline.
+        </p>
+        <p class="text-sm text-gray-400">
+          More WR trackers: <a href="/speedruns/minecraft-speedrun-world-record/" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">Minecraft speedrun WR</a> · <a href="/speedruns/silksong-speedrun/" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">Silksong speedrun WR</a> · <a href="/speedruns/what-is-speedrunning/" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">What is speedrunning?</a> · <a href="/speedruns/" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">All WR trackers</a>
+        </p>
+      </section>
+
+    </div>
+  </div>
+</Base>
+
+{videoId && (
+  <script>
+  const btn = document.getElementById('video-play');
+  const frame = document.getElementById('video-frame') as HTMLIFrameElement;
+  if (btn && frame) {
+    btn.addEventListener('click', () => {
+      const vid = btn.getAttribute('data-videoid');
+      frame.src = `https://www.youtube.com/embed/${vid}?autoplay=1`;
+      frame.classList.remove('hidden');
+      btn.style.display = 'none';
+    });
+  }
+  </script>
+)}
