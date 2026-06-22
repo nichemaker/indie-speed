@@ -26,6 +26,8 @@ const speedrunRecords = defineCollection({
       edition: z.string().optional(),
       version: z.string().optional(),
       sourceUrl: z.string().url(),
+      videoUrl: z.string().url().optional(),
+      caveat: z.string().optional(),
       verified: z.boolean(),
       as_of: z.string(),
       notes: z.string().optional(),

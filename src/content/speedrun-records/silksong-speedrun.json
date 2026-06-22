@@ -1,0 +1,82 @@
+{
+  "game": "Hollow Knight: Silksong",
+  "as_of": "2026-06-22",
+  "updatedAt": "2026-06-22",
+  "headline": {
+    "category": "Any%",
+    "time": "8:33.22",
+    "runner": "pyuk",
+    "date": "2026-06-20",
+    "verified": true
+  },
+  "videoId": "we2TGYwpaeE",
+  "records": [
+    {
+      "category": "Any%",
+      "time": "8:33.22",
+      "runner": "pyuk",
+      "date": "2026-06-20",
+      "sourceUrl": "https://www.speedrun.com/silksong",
+      "videoUrl": "https://youtu.be/we2TGYwpaeE",
+      "caveat": "Exploit-volatile — verify current WR live at speedrun.com/silksong. Current-patch sub-category. Leaderboard #1 is an invalid placeholder (0.001s); this is the current legitimate top time.",
+      "verified": true,
+      "as_of": "2026-06-22",
+      "notes": "956 runs. A recent movement exploit cut times significantly from the ~59–63 min era. The invalid placeholder (0.001s, video link=example.com) at position #1 is excluded from this tracker."
+    },
+    {
+      "category": "Act 1",
+      "time": "9:03.2",
+      "runner": "meemeee",
+      "date": "2026-04-07",
+      "sourceUrl": "https://www.speedrun.com/silksong",
+      "videoUrl": "https://youtu.be/6Qlirsfd8Bg",
+      "verified": true,
+      "as_of": "2026-06-22",
+      "notes": "289 runs on the leaderboard."
+    },
+    {
+      "category": "All Bosses",
+      "time": "34:13",
+      "runner": "meemeee",
+      "date": "2026-04-09",
+      "sourceUrl": "https://www.speedrun.com/silksong",
+      "videoUrl": "https://youtu.be/28djcF0Kafo",
+      "verified": true,
+      "as_of": "2026-06-22",
+      "notes": "29 runs."
+    },
+    {
+      "category": "Low%",
+      "time": "9:56.74",
+      "runner": "IDAX1224",
+      "date": "2025-10-02",
+      "sourceUrl": "https://www.speedrun.com/silksong",
+      "videoUrl": "https://www.bilibili.com/video/BV19gHTzLENe",
+      "verified": true,
+      "as_of": "2026-06-22",
+      "notes": "21 runs. Run video is on Bilibili, not YouTube."
+    },
+    {
+      "category": "True Ending",
+      "time": "2:13:05",
+      "runner": "meemeee",
+      "date": "2026-04-04",
+      "sourceUrl": "https://www.speedrun.com/silksong",
+      "videoUrl": "https://youtu.be/zWYPCNwlbdg",
+      "verified": true,
+      "as_of": "2026-06-22",
+      "notes": "51 runs."
+    },
+    {
+      "category": "100%",
+      "time": "3:49:59",
+      "runner": "meemeee",
+      "date": "2026-01-23",
+      "sourceUrl": "https://www.speedrun.com/silksong",
+      "videoUrl": "https://youtu.be/312b8W2qUSo",
+      "verified": true,
+      "as_of": "2026-06-22",
+      "notes": "41 runs."
+    }
+  ]
+}

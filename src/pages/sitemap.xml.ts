@@ -21,6 +21,7 @@ const staticPaths: { path: string; lastmod: string | null }[] = [
 // every URL resolves to a real built path. Extend this map as CC-4 pages land.
 const SLUG_MAP: Record<string, string> = {
   'minecraft-wr': '/speedruns/minecraft-speedrun-world-record/',
+  'silksong-speedrun': '/speedruns/silksong-speedrun/',
 };
 
 export const GET: APIRoute = async () => {
