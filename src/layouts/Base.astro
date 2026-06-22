@@ -121,11 +121,9 @@ const schemas = [
           IndieSpeedRun
         </a>
         <nav class="flex gap-6 text-sm text-gray-400">
-          {navItems.map((item) =>
-            item.published
-              ? <a href={item.href} class="hover:text-white transition-colors">{item.label}</a>
-              : <span class="opacity-40 cursor-default select-none">{item.label}</span>
-          )}
+          {navItems.filter((item) => item.published).map((item) => (
+            <a href={item.href} class="hover:text-white transition-colors">{item.label}</a>
+          ))}
         </nav>
       </div>
     </header>
