@@ -1,0 +1,76 @@
+---
+// SM64 is gated by actual file existence — no manual flag to forget to flip.
+const speedrunPages = import.meta.glob('../pages/speedruns/*.astro');
+const hasSM64 = '../pages/speedruns/super-mario-64-speedrun.astro' in speedrunPages;
+
+// published: false → link omitted entirely. Same discipline as nav/cards.
+const footerGroups: { heading: string; links: { label: string; href: string; published: boolean }[] }[] = [
+  {
+    heading: 'Speedruns',
+    links: [
+      { label: 'Speedruns hub',            href: '/speedruns/',                                    published: true    },
+      { label: 'Minecraft speedrun WR',    href: '/speedruns/minecraft-speedrun-world-record/',    published: true    },
+      { label: 'Silksong speedrun',        href: '/speedruns/silksong-speedrun/',                  published: true    },
+      { label: 'What is speedrunning?',    href: '/speedruns/what-is-speedrunning/',               published: true    },
+      { label: 'Super Mario 64 speedrun',  href: '/speedruns/super-mario-64-speedrun/',            published: hasSM64 },
+    ],
+  },
+  {
+    heading: 'Tools',
+    links: [
+      { label: 'Speedrun timer', href: '/speedrun-timer/', published: true },
+      { label: 'Speedrun game',  href: '/speedrun-game/',  published: true },
+    ],
+  },
+  {
+    heading: 'About',
+    links: [
+      { label: 'About',       href: '/about/',       published: true },
+      { label: 'Methodology', href: '/methodology/', published: true },
+      { label: 'Jam archive', href: '/jam-archive/', published: true },
+    ],
+  },
+];
+---
+
+<footer class="border-t border-gray-800 mt-16">
+  <div class="max-w-4xl mx-auto px-4 pt-10 pb-8">
+
+    <!-- Wordmark + heritage line -->
+    <div class="mb-10">
+      <a href="/" class="text-lg font-bold text-white hover:text-indigo-400 transition-colors">IndieSpeedRun</a>
+      <p class="text-sm text-gray-400 mt-2 max-w-xl">
+        Formerly the <a href="/jam-archive/" class="underline underline-offset-2 hover:text-white transition-colors">Indie Speed Run game jam</a> (2012–2015) — now an indie games &amp; speedrunning resource.
+      </p>
+    </div>
+
+    <!-- Link columns -->
+    <nav aria-label="Footer" class="grid grid-cols-2 sm:grid-cols-3 gap-8 mb-10">
+      {footerGroups.map((group) => {
+        const liveLinks = group.links.filter((l) => l.published);
+        if (liveLinks.length === 0) return null;
+        return (
+          <div>
+            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">{group.heading}</p>
+            <ul class="space-y-2">
+              {liveLinks.map((l) => (
+                <li>
+                  <a href={l.href} class="text-sm text-gray-400 hover:text-white transition-colors">{l.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
+    </nav>
+
+    <!-- Trust anchor + copyright -->
+    <div class="border-t border-gray-800 pt-6 flex flex-wrap gap-4 justify-between items-center">
+      <p class="text-xs text-gray-400">
+        Records sourced and verified via <a href="https://www.speedrun.com" target="_blank" rel="noopener" class="underline underline-offset-2 hover:text-white transition-colors">speedrun.com</a> — see <a href="/methodology/" class="underline underline-offset-2 hover:text-white transition-colors">how we verify</a>.
+      </p>
+      <p class="text-xs text-gray-400">&copy; 2026 IndieSpeedRun</p>
+    </div>
+
+  </div>
+</footer>
