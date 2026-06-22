@@ -1,0 +1,608 @@
+---
+import Base from '../layouts/Base.astro';
+
+const SITE = 'https://www.indiespeedrun.com';
+
+const breadcrumbs = [
+  { name: 'Home', url: SITE + '/' },
+  { name: 'Speedrun Timer', url: SITE + '/speedrun-timer/' },
+];
+
+const softwareAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'IndieSpeedRun Timer',
+  applicationCategory: 'GameApplication',
+  operatingSystem: 'Any modern web browser',
+  description:
+    'Free browser-based speedrun timer with millisecond precision, named split segments, personal best tracking, keyboard hotkeys, and copy-to-clipboard. No download or account required.',
+  url: `${SITE}/speedrun-timer/`,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  featureList:
+    'Millisecond precision via performance.now(), named split segments, PB comparison with delta, keyboard hotkeys (Enter/Space/R), localStorage persistence, copy splits to clipboard, dark theme',
+  isAccessibleForFree: true,
+};
+---
+
+<Base
+  title="Free Speedrun Timer Online — Splits, PB Tracking, No Install"
+  description="Free browser speedrun timer: ms-precision splits, PB delta comparison, hotkeys (Enter/Space/R), copy to clipboard. No download, no account. Works offline."
+  canonicalPath="/speedrun-timer/"
+  breadcrumbs={breadcrumbs}
+  jsonLd={softwareAppSchema}
+>
+  <div class="max-w-4xl mx-auto px-4 py-8">
+
+    <nav class="text-sm text-gray-400 mb-8 flex gap-2">
+      <a href="/" class="hover:text-gray-300">Home</a>
+      <span>/</span>
+      <span class="text-gray-300">Speedrun Timer</span>
+    </nav>
+
+    <h1 class="text-3xl font-bold text-white mb-1">Free Speedrun Timer</h1>
+    <p class="text-gray-400 mb-8 text-sm">Browser-based · millisecond precision · no install · splits + PB tracking</p>
+
+    <!-- ============================================================ -->
+    <!--  TIMER APP                                                    -->
+    <!-- ============================================================ -->
+    <div id="timer-app" class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-14">
+
+      <!-- Display -->
+      <div class="text-center mb-5">
+        <div
+          id="timer-display"
+          role="timer"
+          aria-label="Elapsed time"
+          class="font-mono font-bold text-white tracking-tight tabular-nums leading-none mb-2"
+          style="font-size: clamp(2.5rem, 8vw, 4rem)"
+        >0:00.000</div>
+        <div id="timer-status" class="text-xs text-gray-400 uppercase tracking-widest">Ready</div>
+        <div id="pb-info" class="mt-1 min-h-[1.25rem] text-sm text-gray-400"></div>
+      </div>
+
+      <!-- Controls -->
+      <div class="flex flex-wrap justify-center gap-3 mb-6">
+        <button
+          id="btn-start-stop"
+          class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-medium rounded-lg transition-colors text-sm"
+        >Start &nbsp;[Enter]</button>
+        <button
+          id="btn-split"
+          disabled
+          class="px-5 py-2.5 bg-gray-700 hover:bg-gray-600 active:bg-gray-800 text-white font-medium rounded-lg transition-colors text-sm disabled:opacity-40 disabled:cursor-not-allowed"
+        >Split &nbsp;[Space]</button>
+        <button
+          id="btn-reset"
+          disabled
+          class="px-5 py-2.5 bg-gray-700 hover:bg-gray-600 active:bg-gray-800 text-white font-medium rounded-lg transition-colors text-sm disabled:opacity-40 disabled:cursor-not-allowed"
+        >Reset &nbsp;[R]</button>
+      </div>
+
+      <!-- Splits table -->
+      <div class="overflow-x-auto mb-4">
+        <table class="w-full text-left border-collapse" aria-label="Split times">
+          <thead>
+            <tr class="border-b border-gray-700">
+              <th scope="col" class="pb-2 pr-3 text-xs text-gray-400 font-medium w-6">#</th>
+              <th scope="col" class="pb-2 pr-3 text-xs text-gray-400 font-medium">Segment</th>
+              <th scope="col" class="pb-2 pr-3 text-xs text-gray-400 font-medium font-mono">Seg Time</th>
+              <th scope="col" class="pb-2 pr-3 text-xs text-gray-400 font-medium font-mono">Total</th>
+              <th scope="col" class="pb-2 text-xs text-gray-400 font-medium font-mono">vs PB</th>
+            </tr>
+          </thead>
+          <tbody id="splits-body">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Post-run actions (hidden until a run finishes/stops) -->
+      <div id="post-run-actions" hidden class="flex flex-wrap gap-3 mb-5">
+        <button
+          id="btn-save-pb"
+          class="px-4 py-2 bg-green-900 hover:bg-green-800 text-green-100 text-sm font-medium rounded-lg transition-colors"
+        >Save as PB</button>
+        <button
+          id="btn-copy"
+          class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-200 text-sm font-medium rounded-lg transition-colors"
+        >Copy splits</button>
+      </div>
+
+      <!-- Segment manager (hidden while running) -->
+      <div id="segment-manager" class="border-t border-gray-800 pt-4">
+        <p class="text-xs text-gray-400 uppercase tracking-wider mb-3">Segments — edit names before starting</p>
+        <div id="segment-list" class="mb-3 space-y-2"></div>
+        <button
+          id="btn-add-segment"
+          class="text-sm text-indigo-400 hover:text-indigo-300 underline underline-offset-2 transition-colors"
+        >+ Add segment</button>
+      </div>
+
+    </div>
+    <!-- END TIMER APP -->
+
+    <!-- ============================================================ -->
+    <!--  PAGE COPY — passage-level answers to raw + next-step queries -->
+    <!-- ============================================================ -->
+    <div class="space-y-12 text-gray-300">
+
+      <section aria-labelledby="how-to-use">
+        <h2 id="how-to-use" class="text-2xl font-bold text-white mb-4">How to use the speedrun timer</h2>
+        <ol class="space-y-2 list-decimal list-inside">
+          <li>
+            Name your segments in the <strong class="text-gray-100">Segments</strong> panel inside the timer.
+            Each segment is one section of your run — a level, a boss fight, a door load, or any checkpoint.
+          </li>
+          <li>
+            Press <kbd class="bg-gray-800 text-gray-200 px-1.5 py-0.5 rounded text-sm font-mono">Enter</kbd>
+            or click <strong class="text-gray-100">Start</strong>. The timer begins immediately.
+          </li>
+          <li>
+            Press <kbd class="bg-gray-800 text-gray-200 px-1.5 py-0.5 rounded text-sm font-mono">Space</kbd>
+            or click <strong class="text-gray-100">Split</strong> at each checkpoint. The timer records the segment time
+            and advances to the next segment.
+          </li>
+          <li>
+            After the last segment the timer stops automatically, or press
+            <kbd class="bg-gray-800 text-gray-200 px-1.5 py-0.5 rounded text-sm font-mono">Enter</kbd>
+            to stop early.
+          </li>
+          <li>
+            Click <strong class="text-gray-100">Save as PB</strong> to store the run. Future runs show a
+            <span class="text-green-400">green delta</span> for faster segments and
+            <span class="text-red-400">red</span> for slower ones.
+          </li>
+          <li>
+            Click <strong class="text-gray-100">Copy splits</strong> to copy the full table to your clipboard
+            — ready to paste into Discord, a spreadsheet, or a leaderboard submission.
+          </li>
+        </ol>
+      </section>
+
+      <section aria-labelledby="hotkeys">
+        <h2 id="hotkeys" class="text-2xl font-bold text-white mb-4">Keyboard hotkeys</h2>
+        <table class="text-sm border-collapse w-full max-w-sm">
+          <thead>
+            <tr class="border-b border-gray-700">
+              <th scope="col" class="py-2 pr-8 text-left text-gray-400 font-medium">Key</th>
+              <th scope="col" class="py-2 text-left text-gray-400 font-medium">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-800">
+              <td class="py-2 pr-8"><kbd class="bg-gray-800 text-gray-200 px-1.5 py-0.5 rounded font-mono">Enter</kbd></td>
+              <td class="py-2">Start / Stop toggle</td>
+            </tr>
+            <tr class="border-b border-gray-800">
+              <td class="py-2 pr-8"><kbd class="bg-gray-800 text-gray-200 px-1.5 py-0.5 rounded font-mono">Space</kbd></td>
+              <td class="py-2">Split — record current segment</td>
+            </tr>
+            <tr class="border-b border-gray-800">
+              <td class="py-2 pr-8"><kbd class="bg-gray-800 text-gray-200 px-1.5 py-0.5 rounded font-mono">R</kbd></td>
+              <td class="py-2">Reset (only when stopped)</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="text-sm text-gray-400 mt-3">Hotkeys are disabled while focus is inside a segment name field.</p>
+      </section>
+
+      <section aria-labelledby="what-are-splits">
+        <h2 id="what-are-splits" class="text-2xl font-bold text-white mb-4">What are splits in speedrunning?</h2>
+        <p class="mb-3">
+          Splits are time checkpoints recorded during a speedrun. Each split captures two values:
+          the <strong class="text-gray-100">segment time</strong> (duration of just that section) and the
+          <strong class="text-gray-100">total time</strong> (elapsed since the run started).
+          A segment is whatever you define — a level exit, a boss kill, a room transition, or a percentage checkpoint.
+        </p>
+        <p class="mb-3">
+          Comparing splits against your personal best (PB) shows exactly where you gained or lost time.
+          A <span class="text-green-400">green delta</span> means the segment was faster than your PB —
+          you "saved" time. A <span class="text-red-400">red delta</span> means you lost time.
+          Speedrun practice is the process of turning red splits green, one segment at a time.
+        </p>
+        <p>
+          Without splits, you only know whether the full run was faster or slower. With splits, you know
+          <em>which room cost you three seconds</em> — so practice is targeted rather than blindly re-running
+          the whole game hoping for a lucky run.
+        </p>
+      </section>
+
+      <section aria-labelledby="what-is-timer">
+        <h2 id="what-is-timer" class="text-2xl font-bold text-white mb-4">What is a speedrun timer?</h2>
+        <p class="mb-3">
+          A speedrun timer is a tool that measures elapsed time with millisecond precision during a speedrun.
+          Unlike a basic stopwatch, it supports named splits and compares each segment against your personal best
+          in real time, so you know your pace mid-run without mental arithmetic.
+        </p>
+        <p>
+          The standard desktop timer is <strong class="text-gray-100">LiveSplit</strong> (Windows-only),
+          which supports auto-splitters that hook directly into game memory. This browser timer covers the
+          core use case — casual timing, learning a new game, or timing on a Mac or Linux machine — without
+          any installation. It won't replace LiveSplit for submitted record attempts, but the split format
+          and PB comparison work the same way.
+        </p>
+      </section>
+
+      <section aria-labelledby="accuracy">
+        <h2 id="accuracy" class="text-2xl font-bold text-white mb-4">How accurate is a browser speedrun timer?</h2>
+        <p class="mb-3">
+          This timer uses <code class="bg-gray-800 text-gray-200 px-1 py-0.5 rounded text-sm font-mono">performance.now()</code>,
+          which returns a high-resolution monotonic timestamp. Modern Chrome and Firefox provide sub-millisecond
+          precision; the display rounds to 1ms (three decimal digits), which matches the standard used by
+          speedrun.com leaderboards.
+        </p>
+        <p>
+          The practical limitation is input latency: the gap between your key press and the split being
+          recorded is typically 5–20 ms depending on your keyboard, USB polling rate, and browser.
+          For practice runs and personal tracking this is irrelevant. For a submitted world record attempt,
+          use LiveSplit with a hardware auto-splitter — the difference matters at the top of a competitive
+          leaderboard, not during practice.
+        </p>
+      </section>
+
+      <section aria-labelledby="offline">
+        <h2 id="offline" class="text-2xl font-bold text-white mb-4">Does the timer work offline?</h2>
+        <p>
+          Yes. All timer logic runs in your browser. No network requests are made during a run. Your segment
+          names and personal best are stored in
+          <code class="bg-gray-800 text-gray-200 px-1 py-0.5 rounded text-sm font-mono">localStorage</code>
+          and persist between browser sessions. Nothing is sent to a server. Clearing your browser data
+          (cookies/site data) will erase saved splits — export important runs with <strong class="text-gray-100">Copy splits</strong>
+          before doing so.
+        </p>
+      </section>
+
+    </div>
+  </div>
+</Base>
+
+<script>
+// ============================================================
+//  IndieSpeedRun Speedrun Timer — vanilla JS, no dependencies
+// ============================================================
+
+const STORAGE_KEY = 'isr-timer-v1';
+
+// --- Persistent config ---
+function loadConfig(): Config {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw) as Config;
+  } catch { /* ignore parse errors */ }
+  return {
+    segments: ['Segment 1', 'Segment 2', 'Segment 3', 'Segment 4', 'Segment 5'],
+    pb: null,
+  };
+}
+
+function saveConfig(cfg: Config): void {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(cfg)); } catch { /* storage full */ }
+}
+
+interface Split {
+  name: string;
+  segmentTime: number; // ms
+  totalTime: number;   // ms
+}
+
+interface PB {
+  splits: Split[];
+  totalTime: number;
+  savedAt: string;
+}
+
+interface Config {
+  segments: string[];
+  pb: PB | null;
+}
+
+let config: Config = loadConfig();
+
+// --- Timer state ---
+let isRunning = false;
+let startTime = 0;        // performance.now() at last start
+let splitStart = 0;       // performance.now() at start of current segment
+let completedSplits: Split[] = [];
+let rafId = 0;
+
+// --- Formatting helpers ---
+function fmt(ms: number): string {
+  const h  = Math.floor(ms / 3_600_000);
+  const m  = Math.floor((ms % 3_600_000) / 60_000);
+  const s  = Math.floor((ms % 60_000) / 1_000);
+  const ms3 = Math.floor(ms % 1_000);
+  const ss  = String(s).padStart(2, '0');
+  const ms3s = String(ms3).padStart(3, '0');
+  if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${ss}.${ms3s}`;
+  return `${m}:${ss}.${ms3s}`;
+}
+
+function fmtDelta(ms: number): string {
+  const sign = ms >= 0 ? '+' : '−';
+  const abs  = Math.abs(ms);
+  const s    = Math.floor(abs / 1_000);
+  const ms3  = Math.floor(abs % 1_000);
+  return `${sign}${s}.${String(ms3).padStart(3, '0')}`;
+}
+
+// --- DOM refs ---
+const timerDisplay   = document.getElementById('timer-display')!;
+const timerStatus    = document.getElementById('timer-status')!;
+const pbInfo         = document.getElementById('pb-info')!;
+const btnStartStop   = document.getElementById('btn-start-stop') as HTMLButtonElement;
+const btnSplit       = document.getElementById('btn-split') as HTMLButtonElement;
+const btnReset       = document.getElementById('btn-reset') as HTMLButtonElement;
+const splitsBody     = document.getElementById('splits-body')!;
+const segmentList    = document.getElementById('segment-list')!;
+const btnAddSegment  = document.getElementById('btn-add-segment') as HTMLButtonElement;
+const postRunActions = document.getElementById('post-run-actions')!;
+const btnSavePb      = document.getElementById('btn-save-pb') as HTMLButtonElement;
+const btnCopy        = document.getElementById('btn-copy') as HTMLButtonElement;
+const segmentManager = document.getElementById('segment-manager')!;
+
+// --- Render: segment editor ---
+function renderSegmentManager(): void {
+  segmentList.innerHTML = '';
+  config.segments.forEach((name, i) => {
+    const row = document.createElement('div');
+    row.className = 'flex items-center gap-2';
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.value = name;
+    input.maxLength = 40;
+    input.className =
+      'flex-1 bg-gray-800 text-gray-100 border border-gray-700 rounded px-3 py-1.5 text-sm' +
+      ' focus:outline-none focus:border-indigo-500 transition-colors';
+    input.setAttribute('aria-label', `Segment ${i + 1} name`);
+    input.addEventListener('input', () => {
+      config.segments[i] = input.value.trim() || `Segment ${i + 1}`;
+      saveConfig(config);
+    });
+
+    const del = document.createElement('button');
+    del.textContent = '×';
+    del.className = 'w-7 h-7 flex items-center justify-center text-gray-400 hover:text-red-400 transition-colors text-xl leading-none rounded';
+    del.setAttribute('aria-label', `Remove segment ${i + 1}`);
+    del.addEventListener('click', () => {
+      if (config.segments.length <= 1) return;
+      config.segments.splice(i, 1);
+      saveConfig(config);
+      renderSegmentManager();
+      renderSplitsTable();
+    });
+
+    row.appendChild(input);
+    row.appendChild(del);
+    segmentList.appendChild(row);
+  });
+}
+
+// --- Render: splits table ---
+function renderSplitsTable(): void {
+  splitsBody.innerHTML = '';
+
+  config.segments.forEach((segName, i) => {
+    const done   = completedSplits[i];
+    const pbSplit = config.pb?.splits[i];
+    const isCurrent = isRunning && i === completedSplits.length;
+
+    const tr = document.createElement('tr');
+    tr.className = isCurrent
+      ? 'bg-indigo-950/60'
+      : '';
+
+    const segTimeStr   = done ? fmt(done.segmentTime) : (isCurrent ? '…' : '—');
+    const totalTimeStr = done ? fmt(done.totalTime)    : (isCurrent ? '…' : '—');
+
+    let deltaStr  = '';
+    let deltaClass = '';
+    if (done && pbSplit) {
+      const d = done.segmentTime - pbSplit.segmentTime;
+      deltaStr  = fmtDelta(d);
+      deltaClass = d <= 0 ? 'text-green-400' : 'text-red-400';
+    }
+
+    tr.innerHTML =
+      `<td class="py-1.5 pr-3 text-xs text-gray-400">${i + 1}</td>` +
+      `<td class="py-1.5 pr-3 text-sm ${isCurrent ? 'text-indigo-300 font-medium' : 'text-gray-200'}">${done?.name ?? segName}</td>` +
+      `<td class="py-1.5 pr-3 font-mono text-sm text-gray-300">${segTimeStr}</td>` +
+      `<td class="py-1.5 pr-3 font-mono text-sm text-gray-300">${totalTimeStr}</td>` +
+      `<td class="py-1.5 font-mono text-sm ${deltaClass}">${deltaStr}</td>`;
+
+    splitsBody.appendChild(tr);
+  });
+}
+
+// --- Render: PB info ---
+function renderPbInfo(): void {
+  if (!config.pb) { pbInfo.textContent = ''; return; }
+  pbInfo.innerHTML =
+    `PB: <span class="font-mono text-gray-300">${fmt(config.pb.totalTime)}</span>` +
+    ` <span class="text-gray-600">·</span> saved ${config.pb.savedAt}`;
+}
+
+// --- RAF loop ---
+function tick(): void {
+  if (!isRunning) return;
+  timerDisplay.textContent = fmt(performance.now() - startTime);
+  rafId = requestAnimationFrame(tick);
+}
+
+// --- Actions ---
+function doStart(): void {
+  completedSplits = [];
+  startTime  = performance.now();
+  splitStart = startTime;
+  isRunning  = true;
+  timerStatus.textContent = 'Running';
+  btnStartStop.textContent = 'Stop  [Enter]';
+  btnSplit.disabled  = false;
+  btnReset.disabled  = true;
+  segmentManager.hidden   = true;
+  postRunActions.hidden   = true;
+  renderSplitsTable();
+  rafId = requestAnimationFrame(tick);
+}
+
+function doStop(): void {
+  cancelAnimationFrame(rafId);
+  const total = performance.now() - startTime;
+  timerDisplay.textContent = fmt(total);
+  isRunning = false;
+  timerStatus.textContent = 'Stopped';
+  btnStartStop.textContent = 'Start  [Enter]';
+  btnSplit.disabled  = true;
+  btnReset.disabled  = false;
+  segmentManager.hidden   = true;
+  postRunActions.hidden   = false;
+  renderSplitsTable();
+  renderPbInfo();
+}
+
+function doSplit(): void {
+  if (!isRunning || completedSplits.length >= config.segments.length) return;
+  const now         = performance.now();
+  const segmentTime = now - splitStart;
+  const totalTime   = now - startTime;
+  completedSplits.push({
+    name: config.segments[completedSplits.length],
+    segmentTime,
+    totalTime,
+  });
+  splitStart = now;
+  renderSplitsTable();
+  if (completedSplits.length >= config.segments.length) doStop();
+}
+
+function doReset(): void {
+  if (isRunning) return;
+  cancelAnimationFrame(rafId);
+  completedSplits = [];
+  timerDisplay.textContent = '0:00.000';
+  timerStatus.textContent  = 'Ready';
+  btnStartStop.textContent = 'Start  [Enter]';
+  btnSplit.disabled  = true;
+  btnReset.disabled  = true;
+  segmentManager.hidden   = false;
+  postRunActions.hidden   = true;
+  renderSplitsTable();
+  renderPbInfo();
+}
+
+function doSavePb(): void {
+  if (completedSplits.length === 0) return;
+  config.pb = {
+    splits: [...completedSplits],
+    totalTime: completedSplits[completedSplits.length - 1].totalTime,
+    savedAt: new Date().toISOString().slice(0, 10),
+  };
+  saveConfig(config);
+  renderPbInfo();
+  renderSplitsTable();
+  const orig = btnSavePb.textContent!;
+  btnSavePb.textContent = 'Saved ✓';
+  setTimeout(() => { btnSavePb.textContent = orig; }, 1800);
+}
+
+function doCopy(): void {
+  if (completedSplits.length === 0) return;
+  const W = { n: 20, seg: 11, tot: 11, pb: 9 };
+  const pad = (s: string, w: number) => s.padEnd(w);
+  const header = [
+    pad('#', 4),
+    pad('Segment', W.n),
+    pad('Seg Time', W.seg),
+    pad('Total', W.tot),
+    'vs PB',
+  ].join('');
+  const divider = '─'.repeat(header.length);
+  const rows = completedSplits.map((s, i) => {
+    const pb   = config.pb?.splits[i];
+    const delta = pb ? fmtDelta(s.segmentTime - pb.segmentTime) : '—';
+    return [
+      pad(String(i + 1), 4),
+      pad(s.name, W.n),
+      pad(fmt(s.segmentTime), W.seg),
+      pad(fmt(s.totalTime), W.tot),
+      delta,
+    ].join('');
+  });
+  const total = completedSplits[completedSplits.length - 1]?.totalTime ?? 0;
+  const lines = [
+    'IndieSpeedRun Speedrun Timer',
+    `Run: ${new Date().toLocaleDateString()}`,
+    '',
+    header,
+    divider,
+    ...rows,
+    '',
+    `Total: ${fmt(total)}`,
+    ...(config.pb
+      ? [`PB:    ${fmt(config.pb.totalTime)}   delta: ${fmtDelta(total - config.pb.totalTime)}`]
+      : []),
+    '',
+    'https://www.indiespeedrun.com/speedrun-timer/',
+  ];
+  const text = lines.join('\n');
+
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard.writeText(text).then(() => flashBtn(btnCopy, 'Copied! ✓'));
+  } else {
+    // Fallback for HTTP / older browsers
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    flashBtn(btnCopy, 'Copied! ✓');
+  }
+}
+
+function flashBtn(btn: HTMLButtonElement, msg: string): void {
+  const orig = btn.textContent!;
+  btn.textContent = msg;
+  setTimeout(() => { btn.textContent = orig; }, 1800);
+}
+
+// --- Event wiring ---
+btnStartStop.addEventListener('click', () => { isRunning ? doStop() : doStart(); });
+btnSplit.addEventListener('click', doSplit);
+btnReset.addEventListener('click', doReset);
+btnSavePb.addEventListener('click', doSavePb);
+btnCopy.addEventListener('click', doCopy);
+btnAddSegment.addEventListener('click', () => {
+  config.segments.push(`Segment ${config.segments.length + 1}`);
+  saveConfig(config);
+  renderSegmentManager();
+  renderSplitsTable();
+});
+
+document.addEventListener('keydown', (e: KeyboardEvent) => {
+  const tag = (e.target as HTMLElement).tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    isRunning ? doStop() : doStart();
+  } else if (e.key === ' ') {
+    e.preventDefault();
+    doSplit();
+  } else if (e.key === 'r' || e.key === 'R') {
+    doReset();
+  }
+});
+
+// --- Init ---
+renderSegmentManager();
+renderSplitsTable();
+renderPbInfo();
+</script>
