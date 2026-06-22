@@ -7,13 +7,28 @@ const breadcrumbs = [
   { name: 'Home', url: SITE + '/' },
   { name: 'Jam Archive', url: SITE + '/jam-archive/' },
 ];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Indie Speed Run Jam Archive (2012–2015)',
+  description:
+    'Archive of the Indie Speed Run game jam, held annually from 2012 to 2015. Hundreds of games built in 48 hours by indie developers, covered by NBC, PC Gamer, Game Developer, and Unity.',
+  url: `${SITE}/jam-archive/`,
+  author: { '@type': 'Organization', name: 'IndieSpeedRun', url: SITE },
+  publisher: { '@type': 'Organization', name: 'IndieSpeedRun', url: SITE },
+  dateModified: '2026-06-22',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/jam-archive/` },
+};
 ---
 
 <Base
   title="Indie Speed Run Jam Archive (2012–2015) — IndieSpeedRun"
   description="Archive of the Indie Speed Run game jam, held annually from 2012 to 2015. Hundreds of games built in 48 hours by indie developers, covered by NBC, PC Gamer, Game Developer, and Unity."
   canonicalPath="/jam-archive/"
+  ogType="article"
   breadcrumbs={breadcrumbs}
+  jsonLd={articleSchema}
 >
   <article class="max-w-4xl mx-auto px-4 py-16">
     <nav class="text-sm text-gray-400 mb-8 flex gap-2">

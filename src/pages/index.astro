@@ -2,6 +2,25 @@
 import Base from '../layouts/Base.astro';
 
 const SITE = 'https://www.indiespeedrun.com';
+
+// published: false → renders as plain text, no href.
+// Flip to true (one-line change here) when the page is built in CC-4/CC-5.
+
+const speedrunLinks = [
+  { label: 'Minecraft Speedrun WR →',   href: '/speedruns/minecraft-speedrun-world-record/', published: true  },
+  { label: 'Super Mario 64 WR →',       href: '/speedruns/super-mario-64-speedrun/',          published: false },
+  { label: 'Silksong Speedrun →',       href: '/speedruns/silksong-speedrun/',                published: false },
+  { label: 'What is speedrunning? →',   href: '/speedruns/what-is-speedrunning/',             published: false },
+];
+
+const indieGamesPublished = false; // flip when /indie-games/ is built
+
+const indieGameLinks = [
+  { label: 'Best indie games (all platforms) →', href: '/indie-games/best-indie-games/',         published: false },
+  { label: 'Best indie games on Switch →',       href: '/indie-games/best-indie-games-switch/',  published: false },
+  { label: 'Best indie games on Steam →',        href: '/indie-games/best-indie-games-steam/',   published: false },
+  { label: 'What are indie games? →',            href: '/indie-games/what-are-indie-games/',     published: false },
+];
 ---
 
 <Base
@@ -29,26 +48,37 @@ const SITE = 'https://www.indiespeedrun.com';
           Current WR tables for Minecraft, SM64, Silksong, and more. Updated weekly, sourced from speedrun.com.
         </p>
         <ul class="text-sm space-y-1">
-          <li><a href="/speedruns/minecraft-speedrun-world-record/" class="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">Minecraft Speedrun WR →</a></li>
-          <li><a href="/speedruns/super-mario-64-speedrun/" class="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">Super Mario 64 WR →</a></li>
-          <li><a href="/speedruns/silksong-speedrun/" class="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">Silksong Speedrun →</a></li>
-          <li><a href="/speedruns/what-is-speedrunning/" class="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">What is speedrunning? →</a></li>
+          {speedrunLinks.map((link) => (
+            <li>
+              {link.published
+                ? <a href={link.href} class="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">{link.label}</a>
+                : <span class="text-gray-600">{link.label}</span>
+              }
+            </li>
+          ))}
         </ul>
       </div>
 
       <!-- Indie games cluster -->
       <div class="border border-gray-800 rounded-lg p-6 hover:border-indigo-500 transition-colors">
         <h2 class="text-lg font-semibold text-white mb-2">
-          <a href="/indie-games/" class="hover:text-indigo-400 transition-colors">Best Indie Games</a>
+          {indieGamesPublished
+            ? <a href="/indie-games/" class="hover:text-indigo-400 transition-colors">Best Indie Games</a>
+            : <span>Best Indie Games</span>
+          }
         </h2>
         <p class="text-gray-400 text-sm mb-4">
           Honest picks with a unique angle: speedrun-friendliness scored alongside quality and originality.
         </p>
         <ul class="text-sm space-y-1">
-          <li><a href="/indie-games/best-indie-games/" class="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">Best indie games (all platforms) →</a></li>
-          <li><a href="/indie-games/best-indie-games-switch/" class="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">Best indie games on Switch →</a></li>
-          <li><a href="/indie-games/best-indie-games-steam/" class="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">Best indie games on Steam →</a></li>
-          <li><a href="/indie-games/what-are-indie-games/" class="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">What are indie games? →</a></li>
+          {indieGameLinks.map((link) => (
+            <li>
+              {link.published
+                ? <a href={link.href} class="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">{link.label}</a>
+                : <span class="text-gray-600">{link.label}</span>
+              }
+            </li>
+          ))}
         </ul>
       </div>
 

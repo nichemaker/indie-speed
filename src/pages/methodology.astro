@@ -7,13 +7,28 @@ const breadcrumbs = [
   { name: 'Home', url: SITE + '/' },
   { name: 'Methodology', url: SITE + '/methodology/' },
 ];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Methodology — How IndieSpeedRun Curates & Verifies',
+  description:
+    'How IndieSpeedRun selects indie games, verifies speedrun records, and applies editorial standards. Explicit criteria, traceable sources, no fabricated claims.',
+  url: `${SITE}/methodology/`,
+  author: { '@type': 'Organization', name: 'IndieSpeedRun', url: SITE },
+  publisher: { '@type': 'Organization', name: 'IndieSpeedRun', url: SITE },
+  dateModified: '2026-06-22',
+  mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE}/methodology/` },
+};
 ---
 
 <Base
   title="Methodology — How IndieSpeedRun Curates & Verifies"
   description="How IndieSpeedRun selects indie games, verifies speedrun records, and applies editorial standards. Explicit criteria, traceable sources, no fabricated claims."
   canonicalPath="/methodology/"
+  ogType="article"
   breadcrumbs={breadcrumbs}
+  jsonLd={articleSchema}
 >
   <article class="max-w-4xl mx-auto px-4 py-16">
     <nav class="text-sm text-gray-400 mb-8 flex gap-2">

@@ -16,6 +16,39 @@ const articleSchema = {
   url: `${SITE}/speedruns/`,
   author: { '@type': 'Organization', name: 'IndieSpeedRun', url: SITE },
 };
+
+// published: false → card renders as <div>, no href, Googlebot-safe.
+// Flip to true (one-line change here) when the page is built in CC-4.
+const speedrunCards = [
+  {
+    badge: 'Live tracker',
+    title: 'Minecraft Speedrun World Record',
+    description: 'RSG, Set Seed, All Advancements, Bedrock — all categories with version splits, sourced from speedrun.com.',
+    href: '/speedruns/minecraft-speedrun-world-record/',
+    published: true,
+  },
+  {
+    badge: 'Coming soon',
+    title: 'Super Mario 64 Speedrun WR',
+    description: '16-star, 1-star, 0-star, and 120-star categories.',
+    href: '/speedruns/super-mario-64-speedrun/',
+    published: false,
+  },
+  {
+    badge: 'Coming soon',
+    title: 'Silksong Speedrun WR',
+    description: 'Hollow Knight: Silksong — any%, all quests, and glitched categories.',
+    href: '/speedruns/silksong-speedrun/',
+    published: false,
+  },
+  {
+    badge: 'Coming soon',
+    title: 'What is speedrunning?',
+    description: 'Categories, timing methods, rules, and how to start.',
+    href: '/speedruns/what-is-speedrunning/',
+    published: false,
+  },
+];
 ---
 
 <Base
@@ -39,39 +72,21 @@ const articleSchema = {
     </p>
 
     <div class="grid sm:grid-cols-2 gap-5 mb-16">
-
-      <a href="/speedruns/minecraft-speedrun-world-record/" class="group block border border-gray-800 hover:border-indigo-500 rounded-xl p-6 transition-colors">
-        <div class="text-xs text-indigo-400 font-semibold uppercase tracking-wide mb-2">Live tracker</div>
-        <h2 class="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Minecraft Speedrun World Record</h2>
-        <p class="text-gray-400 text-sm">
-          RSG, Set Seed, All Advancements, Bedrock — all categories with version splits, sourced from speedrun.com.
-        </p>
-      </a>
-
-      <div class="border border-gray-800 rounded-xl p-6 opacity-50">
-        <div class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-2">Coming soon</div>
-        <h2 class="text-lg font-bold text-gray-400 mb-2">Super Mario 64 Speedrun WR</h2>
-        <p class="text-gray-500 text-sm">
-          16-star, 1-star, 0-star, and 120-star categories.
-        </p>
-      </div>
-
-      <div class="border border-gray-800 rounded-xl p-6 opacity-50">
-        <div class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-2">Coming soon</div>
-        <h2 class="text-lg font-bold text-gray-400 mb-2">Silksong Speedrun WR</h2>
-        <p class="text-gray-500 text-sm">
-          Hollow Knight: Silksong — any%, all quests, and glitched categories.
-        </p>
-      </div>
-
-      <a href="/speedruns/what-is-speedrunning/" class="group block border border-gray-800 hover:border-indigo-500 rounded-xl p-6 transition-colors opacity-50 pointer-events-none">
-        <div class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-2">Coming soon</div>
-        <h2 class="text-lg font-bold text-gray-400 mb-2">What is speedrunning?</h2>
-        <p class="text-gray-500 text-sm">
-          Categories, timing methods, rules, and how to start.
-        </p>
-      </a>
-
+      {speedrunCards.map((card) =>
+        card.published ? (
+          <a href={card.href} class="group block border border-gray-800 hover:border-indigo-500 rounded-xl p-6 transition-colors">
+            <div class="text-xs text-indigo-400 font-semibold uppercase tracking-wide mb-2">{card.badge}</div>
+            <h2 class="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">{card.title}</h2>
+            <p class="text-gray-400 text-sm">{card.description}</p>
+          </a>
+        ) : (
+          <div class="border border-gray-800 rounded-xl p-6 opacity-50">
+            <div class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-2">{card.badge}</div>
+            <h2 class="text-lg font-bold text-gray-400 mb-2">{card.title}</h2>
+            <p class="text-gray-500 text-sm">{card.description}</p>
+          </div>
+        )
+      )}
     </div>
 
     <div class="border-t border-gray-800 pt-8 text-sm text-gray-400 space-y-2">
