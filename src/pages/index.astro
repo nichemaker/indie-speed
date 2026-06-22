@@ -1,0 +1,83 @@
+---
+import Base from '../layouts/Base.astro';
+
+const SITE = 'https://www.indiespeedrun.com';
+---
+
+<Base
+  title="IndieSpeedRun — Indie Games & Speedrun World Records"
+  description="Indie game coverage and speedrun world records. Rooted in the Indie Speed Run jam (2012–2015), built for players who care about both craft and competition."
+  canonicalPath="/"
+>
+  <section class="max-w-4xl mx-auto px-4 py-16">
+    <div class="mb-12">
+      <h1 class="text-4xl font-bold text-white mb-4">
+        Indie Games & Speedrunning
+      </h1>
+      <p class="text-xl text-gray-300 max-w-2xl">
+        Coverage rooted in the <a href="/jam-archive/" class="text-indigo-400 hover:text-indigo-300 underline">Indie Speed Run jam</a> (2012–2015) — where indie devs built games under 48 hours, speedrunners broke them in minutes. Same community, still going.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-6 mb-16">
+      <!-- Speedrun cluster -->
+      <div class="border border-gray-800 rounded-lg p-6 hover:border-indigo-500 transition-colors">
+        <h2 class="text-lg font-semibold text-white mb-2">
+          <a href="/speedruns/" class="hover:text-indigo-400 transition-colors">Speedrun World Records</a>
+        </h2>
+        <p class="text-gray-400 text-sm mb-4">
+          Current WR tables for Minecraft, SM64, Silksong, and more. Updated weekly, sourced from speedrun.com.
+        </p>
+        <ul class="text-sm space-y-1">
+          <li><a href="/speedruns/minecraft-speedrun-world-record/" class="text-indigo-400 hover:text-indigo-300">Minecraft Speedrun WR →</a></li>
+          <li><a href="/speedruns/super-mario-64-speedrun/" class="text-indigo-400 hover:text-indigo-300">Super Mario 64 WR →</a></li>
+          <li><a href="/speedruns/silksong-speedrun/" class="text-indigo-400 hover:text-indigo-300">Silksong Speedrun →</a></li>
+          <li><a href="/speedruns/what-is-speedrunning/" class="text-indigo-400 hover:text-indigo-300">What is speedrunning? →</a></li>
+        </ul>
+      </div>
+
+      <!-- Indie games cluster -->
+      <div class="border border-gray-800 rounded-lg p-6 hover:border-indigo-500 transition-colors">
+        <h2 class="text-lg font-semibold text-white mb-2">
+          <a href="/indie-games/" class="hover:text-indigo-400 transition-colors">Best Indie Games</a>
+        </h2>
+        <p class="text-gray-400 text-sm mb-4">
+          Honest picks with a unique angle: speedrun-friendliness scored alongside quality and originality.
+        </p>
+        <ul class="text-sm space-y-1">
+          <li><a href="/indie-games/best-indie-games/" class="text-indigo-400 hover:text-indigo-300">Best indie games (all platforms) →</a></li>
+          <li><a href="/indie-games/best-indie-games-switch/" class="text-indigo-400 hover:text-indigo-300">Best indie games on Switch →</a></li>
+          <li><a href="/indie-games/best-indie-games-steam/" class="text-indigo-400 hover:text-indigo-300">Best indie games on Steam →</a></li>
+          <li><a href="/indie-games/what-are-indie-games/" class="text-indigo-400 hover:text-indigo-300">What are indie games? →</a></li>
+        </ul>
+      </div>
+
+      <!-- Tools -->
+      <div class="border border-gray-800 rounded-lg p-6 hover:border-indigo-500 transition-colors">
+        <h2 class="text-lg font-semibold text-white mb-2">
+          <a href="/speedrun-timer/" class="hover:text-indigo-400 transition-colors">Free Speedrun Timer</a>
+        </h2>
+        <p class="text-gray-400 text-sm">
+          Browser-based timer with splits, PB tracking, and hotkeys. No install, no account. Works offline.
+        </p>
+      </div>
+
+      <!-- Heritage -->
+      <div class="border border-gray-800 rounded-lg p-6 hover:border-indigo-500 transition-colors">
+        <h2 class="text-lg font-semibold text-white mb-2">
+          <a href="/jam-archive/" class="hover:text-indigo-400 transition-colors">Jam Archive</a>
+        </h2>
+        <p class="text-gray-400 text-sm">
+          The original Indie Speed Run jam ran 2012–2015, with coverage from NBC, PC Gamer, Game Developer, and Unity. This is the archive.
+        </p>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-800 pt-8 text-sm text-gray-500">
+      <p>
+        Editorial standards: <a href="/methodology/" class="text-indigo-400 hover:text-indigo-300">how we curate and verify</a>.
+        No fake experts, no fabricated "we tested" claims — just scene-aware coverage.
+      </p>
+    </div>
+  </section>
+</Base>

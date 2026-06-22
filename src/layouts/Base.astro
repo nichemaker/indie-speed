@@ -1,0 +1,137 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  ogImage?: string;
+  breadcrumbs?: { name: string; url: string }[];
+  jsonLd?: object | object[];
+}
+
+const SITE = 'https://www.indiespeedrun.com';
+const SITE_NAME = 'IndiespeedRun';
+
+const {
+  title,
+  description,
+  canonicalPath = '/',
+  ogImage = '/og-image.png',
+  breadcrumbs,
+  jsonLd,
+} = Astro.props;
+
+const canonicalUrl = `${SITE}${canonicalPath}`;
+const ogImageUrl = `${SITE}${ogImage}`;
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE_NAME,
+  url: SITE,
+  description: 'Indie games coverage, speedrun world records, and community heritage from the Indie Speed Run jam.',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${SITE}/?s={search_term_string}`,
+    'query-input': 'required name=search_term_string',
+  },
+};
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE_NAME,
+  url: SITE,
+  logo: `${SITE}/og-image.png`,
+};
+
+const breadcrumbSchema = breadcrumbs && breadcrumbs.length > 0 ? {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbs.map((crumb, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: crumb.name,
+    item: crumb.url,
+  })),
+} : null;
+
+const schemas = [
+  websiteSchema,
+  orgSchema,
+  ...(breadcrumbSchema ? [breadcrumbSchema] : []),
+  ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []),
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content={SITE_NAME} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Feeds -->
+    <link rel="alternate" type="application/rss+xml" title={`${SITE_NAME} RSS`} href={`${SITE}/rss.xml`} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- JSON-LD -->
+    {schemas.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
+  </head>
+  <body class="bg-gray-950 text-gray-100 font-sans antialiased">
+    <header class="border-b border-gray-800">
+      <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+        <a href="/" class="text-lg font-bold text-white hover:text-indigo-400 transition-colors">
+          IndieSpeedRun
+        </a>
+        <nav class="flex gap-6 text-sm text-gray-400">
+          <a href="/speedruns/" class="hover:text-white transition-colors">Speedruns</a>
+          <a href="/indie-games/" class="hover:text-white transition-colors">Indie Games</a>
+          <a href="/speedrun-timer/" class="hover:text-white transition-colors">Timer</a>
+          <a href="/about/" class="hover:text-white transition-colors">About</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="border-t border-gray-800 mt-16">
+      <div class="max-w-4xl mx-auto px-4 py-8 text-sm text-gray-500 flex flex-wrap gap-4 justify-between">
+        <p>&copy; {new Date().getFullYear()} IndieSpeedRun. Honest coverage, no affiliation.</p>
+        <nav class="flex gap-4">
+          <a href="/about/" class="hover:text-gray-300 transition-colors">About</a>
+          <a href="/methodology/" class="hover:text-gray-300 transition-colors">Methodology</a>
+          <a href="/jam-archive/" class="hover:text-gray-300 transition-colors">Jam Archive</a>
+          <a href="/rss.xml" class="hover:text-gray-300 transition-colors">RSS</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

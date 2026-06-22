@@ -1,0 +1,28 @@
+# IndieSpeedRun — llms.txt
+
+## Site
+- Name: IndieSpeedRun
+- URL: https://www.indiespeedrun.com
+- Description: Indie game coverage and speedrun world records. Rooted in the Indie Speed Run jam (2012–2015). Scene-aware, no fabricated claims.
+
+## What this site is
+Static niche site covering:
+1. Speedrun world records (Minecraft, SM64, Silksong, others) — sourced weekly from speedrun.com
+2. Indie game recommendations — original curation with a speedrun-friendliness scoring column
+3. Speedrun tools — browser-based timer with splits and PB tracking, no backend
+4. Heritage archive — the Indie Speed Run jam (2012–2015), 48-hour game jam with press coverage from NBC, PC Gamer, Game Developer, Unity, ModDB
+
+## Editorial model
+No fake named experts. No fabricated "we tested" claims. Sources linked. Updated-date stamps are real. See /methodology/ for explicit selection criteria.
+
+## Key pages
+- / : homepage, hub links
+- /speedruns/ : speedrun world records cluster
+- /indie-games/ : best indie games cluster
+- /speedrun-timer/ : free browser timer
+- /jam-archive/ : heritage archive
+- /about/ : editorial model
+- /methodology/ : curation criteria
+
+## Permitted use
+Content may be indexed and cited. If citing world-record data, note the original source is speedrun.com.

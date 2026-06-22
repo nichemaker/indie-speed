@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+
+const SITE = 'https://www.indiespeedrun.com';
+
+const breadcrumbs = [
+  { name: 'Home', url: SITE + '/' },
+  { name: 'Jam Archive', url: SITE + '/jam-archive/' },
+];
+---
+
+<Base
+  title="Indie Speed Run Jam Archive (2012–2015) — IndieSpeedRun"
+  description="Archive of the Indie Speed Run game jam, held annually from 2012 to 2015. Hundreds of games built in 48 hours by indie developers, covered by NBC, PC Gamer, Game Developer, and Unity."
+  canonicalPath="/jam-archive/"
+  breadcrumbs={breadcrumbs}
+>
+  <article class="max-w-4xl mx-auto px-4 py-16">
+    <nav class="text-sm text-gray-500 mb-8 flex gap-2">
+      <a href="/" class="hover:text-gray-300">Home</a>
+      <span>/</span>
+      <span class="text-gray-300">Jam Archive</span>
+    </nav>
+
+    <h1 class="text-4xl font-bold text-white mb-4">Indie Speed Run Jam Archive</h1>
+    <p class="text-gray-400 text-sm mb-10">Heritage record · 2012–2015</p>
+
+    <div class="prose prose-invert max-w-none space-y-6 text-gray-300">
+      <p class="text-xl">
+        The Indie Speed Run jam ran from 2012 to 2015, challenging indie developers to build a complete game in 48 hours — then watching speedrunners break them in minutes. It attracted hundreds of teams, press coverage from major outlets, and a community that continues today.
+      </p>
+
+      <h2 class="text-2xl font-bold text-white mt-10 mb-4">The Jam</h2>
+      <p>
+        Each year, participants received a theme and two constraints on Friday evening. By Sunday night, submitted games were immediately seeded to a live speedrun bracket. The dual audience — devs who built and runners who broke — created a feedback loop unlike any other jam format.
+      </p>
+
+      <h2 class="text-2xl font-bold text-white mt-10 mb-4">Press Coverage</h2>
+      <p>
+        The jam earned genuine editorial attention from the gaming and developer press, including NBC, Fox, Vice, PC Gamer, Game Developer Magazine, Unity Technologies, ModDB, and IndieDB. Those links are the domain's inherited link equity — the foundation this site is built on.
+      </p>
+
+      <h2 class="text-2xl font-bold text-white mt-10 mb-4">What Happened to the Games?</h2>
+      <p>
+        Most jam games lived on team pages and the official site. Many are no longer hosted; some survive on itch.io and Game Jolt. This archive exists to preserve the record of what was built and the community context around it.
+      </p>
+
+      <h2 class="text-2xl font-bold text-white mt-10 mb-4">The Site Today</h2>
+      <p>
+        indiespeedrun.com has grown beyond the jam. It now covers speedrun world records, indie game recommendations, and tools for the speedrunning community — while keeping the jam's heritage as its foundation. The editorial standards are the same: scene-aware, honest, no fabricated "we tested" claims.
+      </p>
+
+      <div class="border border-gray-800 rounded-lg p-6 mt-10">
+        <p class="text-sm text-gray-400">
+          <strong class="text-gray-200">Legacy URL redirect notice:</strong> Old URLs under <code>/devsite/</code>, <code>/teams/</code>, <code>/teampage/</code>, <code>/2015wp/</code>, and <code>/index.php</code> redirect here permanently. If you're looking for a specific team's game, search the <a href="https://web.archive.org" target="_blank" rel="noopener" class="text-indigo-400 hover:text-indigo-300">Wayback Machine</a>.
+        </p>
+      </div>
+    </div>
+  </article>
+</Base>
