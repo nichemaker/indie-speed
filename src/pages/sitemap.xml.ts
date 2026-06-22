@@ -13,6 +13,7 @@ const staticPaths: { path: string; lastmod: string | null }[] = [
   { path: '/speedrun-timer/', lastmod: null },
   { path: '/speedrun-game/', lastmod: null },
   { path: '/speedruns/', lastmod: null },
+  { path: '/speedruns/what-is-speedrunning/', lastmod: null },
 ];
 
 // Collection 'speedrun-records' entry IDs (filenames, e.g. 'minecraft-wr')

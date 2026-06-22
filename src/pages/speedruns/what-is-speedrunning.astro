@@ -1,0 +1,451 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const SITE = 'https://www.indiespeedrun.com';
+
+const breadcrumbs = [
+  { name: 'Home',      url: SITE + '/' },
+  { name: 'Speedruns', url: SITE + '/speedruns/' },
+  { name: 'What Is Speedrunning?', url: SITE + '/speedruns/what-is-speedrunning/' },
+];
+
+const faqQA = [
+  {
+    q: 'Why is it called "speedrunning"?',
+    a: 'The term blends "speed" (fastest completion) with "run" (a single playthrough attempt). It emerged from gaming communities in the 1990s and early 2000s, when players would post their fastest "runs" of games to forums and early video sites. Over time "speedrun" became the accepted noun and verb for the practice.',
+  },
+  {
+    q: 'Is speedrunning an esport?',
+    a: 'Speedrunning is competitive but operates differently from traditional esports. Competition is asynchronous — runners submit times to a global leaderboard rather than competing in real-time brackets. There are no standardized seasons, fixed prize pools, or team franchises. Events like Games Done Quick (GDQ) bring runners together for live charity marathons, but these are exhibition performances, not tournament matches. The speedrunning community generally does not self-describe as an esport.',
+  },
+  {
+    q: 'Do speedrunners get paid?',
+    a: 'Most speedrunners are hobbyists earning nothing from running. A small number generate income through: streaming revenue (subscriptions, donations, ads on Twitch or YouTube) if they have a large audience; appearance at marathon events like Games Done Quick, which raise millions for charity and provide exposure but do not pay runners directly; and occasional sponsorships from gaming peripheral or software companies. The barrier to entry is just the game itself — any player with a copy and a timer can compete.',
+  },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'What Is Speedrunning? Categories, Timing & Terms Explained',
+  description:
+    'Speedrunning is completing a video game as fast as possible. Covers categories, timing methods, how runs are verified, and a full glossary of terms.',
+  dateModified: '2026-06-22',
+  author: { '@type': 'Organization', name: 'IndieSpeedRun', url: SITE },
+  publisher: {
+    '@type': 'Organization',
+    name: 'IndieSpeedRun',
+    url: SITE,
+    logo: { '@type': 'ImageObject', url: `${SITE}/og-image.png` },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': `${SITE}/speedruns/what-is-speedrunning/`,
+  },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqQA.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+};
+---
+
+<Base
+  title="What Is Speedrunning? Categories, Timing & Terms Explained"
+  description="Speedrunning is completing a video game as fast as possible. Covers categories, timing methods, how runs are verified, and a full glossary of terms."
+  canonicalPath="/speedruns/what-is-speedrunning/"
+  ogType="article"
+  breadcrumbs={breadcrumbs}
+  jsonLd={[articleSchema, faqSchema]}
+>
+  <div class="max-w-4xl mx-auto px-4 py-8">
+
+    <nav class="text-sm text-gray-400 mb-8 flex gap-2 flex-wrap">
+      <a href="/" class="hover:text-gray-300">Home</a>
+      <span>/</span>
+      <a href="/speedruns/" class="hover:text-gray-300">Speedruns</a>
+      <span>/</span>
+      <span class="text-gray-300">What Is Speedrunning?</span>
+    </nav>
+
+    <h1 class="text-3xl font-bold text-white mb-8">What Is Speedrunning?</h1>
+
+    <!-- ============================================================ -->
+    <!-- DEFINITION                                                     -->
+    <!-- ============================================================ -->
+    <div class="space-y-14 text-gray-300">
+
+      <section aria-labelledby="definition">
+        <h2 id="definition" class="text-2xl font-bold text-white mb-4">What is speedrunning?</h2>
+        <p class="mb-3">
+          <strong class="text-gray-100">Speedrunning is the practice of completing a video game — or a defined section of it — as fast as possible, typically in competition with a global leaderboard.</strong>
+        </p>
+        <p class="mb-3">
+          A run begins at a community-agreed start point (usually first input or a specific menu action) and ends at a community-agreed finish (credits, a final boss death, or a specific in-game trigger). Everything in between — route choices, glitch execution, moment-to-moment decisions — is the speedrunner's domain.
+        </p>
+        <p>
+          Times are submitted with video evidence to leaderboards such as <a href="https://www.speedrun.com" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">speedrun.com</a>, where community moderators review and verify each run.
+        </p>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- WHY IS IT CALLED SPEEDRUNNING                                 -->
+      <!-- ============================================================ -->
+      <section aria-labelledby="etymology">
+        <h2 id="etymology" class="text-2xl font-bold text-white mb-4">Why is it called "speedrunning"?</h2>
+        <p class="mb-3">
+          The term blends <strong class="text-gray-100">"speed"</strong> (fastest completion) with <strong class="text-gray-100">"run"</strong> (a single playthrough attempt). It emerged from gaming communities in the 1990s and early 2000s, when players would post their fastest "runs" of games to forums and early video sites — Quake done quick, Super Mario Bros. in under five minutes, that kind of thing.
+        </p>
+        <p>
+          Over time "speedrun" solidified as both noun and verb. A player "does a speedrun"; a single attempt is "a run"; the activity is "speedrunning." The community that formed around it developed its own timing standards, category definitions, and verification infrastructure — most of which is now organised on speedrun.com.
+        </p>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- CATEGORIES                                                     -->
+      <!-- ============================================================ -->
+      <section aria-labelledby="categories">
+        <h2 id="categories" class="text-2xl font-bold text-white mb-4">How speedruns are categorized</h2>
+        <p class="mb-6 text-gray-400">
+          A game can have dozens of active categories, each testing different skills. Categories are defined and maintained by the game's community, not by developers.
+        </p>
+
+        <div class="space-y-8">
+
+          <div>
+            <h3 id="any-percent" class="text-xl font-semibold text-white mb-3">What does Any% mean?</h3>
+            <p>
+              <strong class="text-gray-100">Any%</strong> means reaching the defined end condition by any means the category rules permit — including glitches, out-of-bounds movement, and sequence breaks. The "%" refers to the concept of game completion percentage; "any" means no minimum is required. Any% is usually the fastest category in a game and often the most competitive.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="100-percent" class="text-xl font-semibold text-white mb-3">What is 100%?</h3>
+            <p class="mb-3">
+              <strong class="text-gray-100">100%</strong> requires completing the game fully — all collectibles, objectives, or whatever the community formally defines as "full completion." The exact definition is set per-game: in some games it means every item; in others it means every story beat or achievement.
+            </p>
+            <p>
+              100% runs are typically much longer than Any% and reward encyclopaedic game knowledge over pure execution speed.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="glitchless" class="text-xl font-semibold text-white mb-3">What is Glitchless?</h3>
+            <p>
+              <strong class="text-gray-100">Glitchless</strong> bans specific unintended exploits — usually out-of-bounds movement, major bugs that skip large sections, and movement techniques not intended by the developer. Each game's community maintains a written ruleset defining which techniques are allowed. Glitchless runs are generally slower than Any% but showcase the game's intended design more closely and can attract players who prefer skill-based routing over exploit execution.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="low-percent" class="text-xl font-semibold text-white mb-3">What is Low% / 0%?</h3>
+            <p>
+              <strong class="text-gray-100">Low%</strong> (or 0%) challenges runners to complete the game collecting as few items or reaching as low a completion percentage as possible. It tests whether the game can be beaten while deliberately avoiding the power-ups and items that would normally make it easier. It's a constraint category that often reveals surprisingly deep knowledge of game mechanics.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="ng-plus" class="text-xl font-semibold text-white mb-3">NG vs NG+?</h3>
+            <p class="mb-3">
+              <strong class="text-gray-100">NG (New Game)</strong> starts from a fresh save with no carry-over from previous playthroughs — the standard starting condition for most competitive categories.
+            </p>
+            <p>
+              <strong class="text-gray-100">NG+ (New Game Plus)</strong> starts with gear, abilities, or items unlocked in a prior completion. NG+ runs are typically faster because the runner begins overpowered relative to the early game. The two are tracked on separate leaderboards because they aren't directly comparable.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="seed" class="text-xl font-semibold text-white mb-3">Set seed vs random seed?</h3>
+            <p class="mb-3">
+              Relevant in games with procedural generation — primarily roguelikes and sandbox games:
+            </p>
+            <ul class="space-y-2 mb-3">
+              <li><strong class="text-gray-100">Set Seed (SSG):</strong> A predetermined world seed known in advance. The runner memorises the exact layout, item locations, and optimal path — each run is identically routed, rewarding execution precision.</li>
+              <li><strong class="text-gray-100">Random Seed (RSG):</strong> An unknown seed chosen at run-start. Every run generates a different world; the runner must make live routing decisions based on what spawns. RSG is considered the more prestigious category because there is no preparation advantage.</li>
+            </ul>
+            <p>
+              The distinction is most visible in the Minecraft community — the headline Any% RSG category is covered in detail on the <a href="/speedruns/minecraft-speedrun-world-record/" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">Minecraft speedrun world record page</a>.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- TIMING                                                         -->
+      <!-- ============================================================ -->
+      <section aria-labelledby="timing">
+        <h2 id="timing" class="text-2xl font-bold text-white mb-4">How runs are timed</h2>
+        <p class="mb-6 text-gray-400">
+          Timing method is one of the first things a leaderboard defines. The wrong method can make a run incomparable across hardware.
+        </p>
+
+        <div class="space-y-8">
+
+          <div>
+            <h3 id="rta-igt" class="text-xl font-semibold text-white mb-3">RTA vs IGT?</h3>
+            <p class="mb-3">
+              <strong class="text-gray-100">RTA (Real Time Attack)</strong> measures wall-clock time: from the runner's first input to the defined end condition. Load screens, menus, cutscenes, and pauses all count. RTA is simple — any stopwatch works — but it disadvantages runners on slower hardware.
+            </p>
+            <p>
+              <strong class="text-gray-100">IGT (In-Game Time)</strong> uses the game's own internal timer, which typically pauses during loads and transitions. IGT removes the hardware-speed variable; a runner on an HDD competes on equal footing with one on an NVMe SSD. When both are reported, IGT is usually the ranked metric and RTA is secondary.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="splits" class="text-xl font-semibold text-white mb-3">What is a split?</h3>
+            <p class="mb-3">
+              A <strong class="text-gray-100">split</strong> is a checkpoint timestamp recorded at a predefined moment during a run — a level exit, boss death, area transition, or any agreed landmark. At each split, the timer records both the segment time (duration of just that section) and the cumulative total.
+            </p>
+            <p>
+              Comparing splits against your personal best (PB) in real time shows exactly where you're gaining or losing time — essential for targeted practice. You can record splits for any game using the <a href="/speedrun-timer/" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">free speedrun timer</a> on this site.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="green-gold" class="text-xl font-semibold text-white mb-3">What is a green/gold split?</h3>
+            <p class="mb-3">
+              <strong class="text-gray-100">Green split:</strong> the current segment is faster than your PB time for that segment — you're ahead of your best complete run.
+            </p>
+            <p>
+              <strong class="text-gray-100">Gold split:</strong> the current segment beats your all-time best for that individual segment, regardless of what happened in the rest of the run. A gold split is rarer than a green split — your PB run doesn't need gold splits in every segment to be a PB overall. A run where every segment goes gold simultaneously is called a "sum of best" run, and is essentially a theoretical perfect run.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="lrt" class="text-xl font-semibold text-white mb-3">What is LRT?</h3>
+            <p>
+              <strong class="text-gray-100">LRT (Load-Removed Time)</strong> strips load screens out of real-time using software that detects when a load begins and ends. It provides a fairer comparison than raw RTA across different hardware speeds without requiring the game to have an IGT. LRT sits between RTA and IGT in terms of hardware-neutrality.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- HOW RUNS ARE PERFORMED                                         -->
+      <!-- ============================================================ -->
+      <section aria-labelledby="execution">
+        <h2 id="execution" class="text-2xl font-bold text-white mb-4">How runs are performed</h2>
+
+        <div class="space-y-8">
+
+          <div>
+            <h3 id="single-segmented" class="text-xl font-semibold text-white mb-3">Single-segment vs segmented?</h3>
+            <p class="mb-3">
+              <strong class="text-gray-100">Single-segment (SS):</strong> the entire run is completed in one continuous attempt with no saves or resets between sections. This is the standard for competitive leaderboards — if the runner messes up, they reset and start over.
+            </p>
+            <p>
+              <strong class="text-gray-100">Segmented:</strong> the run is divided into sections, each recorded separately in the best possible condition and then joined. Segmented runs were more common in the early era of speedrunning and for extremely difficult runs where certain sections are nearly impossible to execute consistently. Modern competitive leaderboards almost universally require single-segment runs.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="tas" class="text-xl font-semibold text-white mb-3">What is a TAS?</h3>
+            <p class="mb-3">
+              A <strong class="text-gray-100">Tool-Assisted Speedrun (TAS)</strong> is produced using emulator tools — frame advance (stepping through the game one frame at a time), rewind, and scripted inputs — to construct a run with frame-perfect execution throughout. The result demonstrates what is theoretically achievable within the game's physics, not what any human can perform in real time.
+            </p>
+            <p class="mb-3">
+              TAS runs are tracked entirely separately from human leaderboards, typically at <a href="https://tasvideos.org" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">TASVideos.org</a>. <strong class="text-gray-100">A TAS time is not a human world record</strong> and is not comparable to human runs on the same leaderboard.
+            </p>
+            <p>
+              TAS production is a software engineering exercise; the process of building one often reveals new techniques that human runners subsequently incorporate.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="routing" class="text-xl font-semibold text-white mb-3">What is routing?</h3>
+            <p>
+              <strong class="text-gray-100">Routing</strong> is determining the optimal sequence of objectives, items, and paths through the game to reach the end condition in the shortest time. A community may spend months iterating on a route, and the discovery of a single new glitch or tech can invalidate a previously dominant route entirely. Routing knowledge is often communal — shared openly in Discord servers and wikis — rather than kept secret by individual runners.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="glitches" class="text-xl font-semibold text-white mb-3">Glitches, clips & sequence breaks?</h3>
+            <p class="mb-3">
+              <strong class="text-gray-100">Glitch:</strong> unintended behavior caused by a bug in the game code, exploited to save time — corrupted memory, incorrect collision responses, animation-cancel windows.
+            </p>
+            <p class="mb-3">
+              <strong class="text-gray-100">Clip:</strong> passing through solid geometry (walls, floors, ceilings) by exploiting imprecision in the collision detection system. A successful clip can skip entire sections of a level.
+            </p>
+            <p>
+              <strong class="text-gray-100">Sequence break:</strong> bypassing a required story trigger or progression gate, allowing the runner to reach a later section of the game before the intended order. The most dramatic sequence breaks can send a runner to the final boss within minutes of a game that normally takes tens of hours.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="rng" class="text-xl font-semibold text-white mb-3">What is RNG?</h3>
+            <p class="mb-3">
+              <strong class="text-gray-100">RNG (Random Number Generation)</strong> is the game's randomness — enemy movement patterns, item drop rates, level generation, dialogue outcomes — determined by pseudorandom values seeded by the game or by external timing.
+            </p>
+            <p>
+              Runners study RNG extensively: in some games it's predictable enough to manipulate by performing specific actions at precise times (<strong class="text-gray-100">RNG manipulation</strong>), producing favorable outcomes on demand. In others it's a significant luck variable that runners can only survive, not control.
+            </p>
+          </div>
+
+          <div>
+            <h3 id="splicing" class="text-xl font-semibold text-white mb-3">What is splicing?</h3>
+            <p>
+              <strong class="text-gray-100">Splicing</strong> is editing together footage from multiple separate runs to produce a fraudulent record — for example, combining the first half of one run with the second half of a faster but inconsistent separate run. Splicing is universally considered cheating in the speedrunning community and grounds for immediate disqualification and leaderboard removal. Moderators check for audio/visual inconsistencies, metadata breaks, and split-file timing irregularities to detect it.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- VERIFICATION                                                   -->
+      <!-- ============================================================ -->
+      <section aria-labelledby="verification">
+        <h2 id="verification" class="text-2xl font-bold text-white mb-4">How records get verified</h2>
+        <p class="mb-3">
+          The community-standard leaderboard for most games is <a href="https://www.speedrun.com" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">speedrun.com</a>. Submitting a run typically requires:
+        </p>
+        <ol class="list-decimal list-inside space-y-2 mb-4">
+          <li>Recording the run with video evidence (most categories require this).</li>
+          <li>Submitting the run to the category leaderboard, including the video link and the timed result.</li>
+          <li>Community moderators review the video for rule compliance, checking timing, disallowed techniques, and signs of manipulation or splicing.</li>
+          <li>The run is accepted (appears on the leaderboard) or rejected (with a reason).</li>
+        </ol>
+        <p class="mb-3">
+          Some high-profile categories require additional evidence — live timer data from timer software, or even a secondary camera showing the game hardware — to raise the verification bar.
+        </p>
+        <p>
+          For how we source and cross-check the world-record data published on this site, see <a href="/methodology/" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">our methodology</a>. Speedrun.com is the authoritative source; we are secondary and link directly to every run we reference.
+        </p>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- IS IT AN ESPORT                                                -->
+      <!-- ============================================================ -->
+      <section aria-labelledby="esport">
+        <h2 id="esport" class="text-2xl font-bold text-white mb-4">Is speedrunning an esport?</h2>
+        <p class="mb-3">
+          Speedrunning is competitive, but it operates very differently from traditional esports. Competition is <strong class="text-gray-100">asynchronous</strong> — runners submit times to a global leaderboard rather than competing against each other in real-time brackets. There are no standardised seasons, fixed prize pools, or team franchises in the esport sense.
+        </p>
+        <p class="mb-3">
+          Events like <strong class="text-gray-100">Games Done Quick (GDQ)</strong> bring runners together for live, in-person marathon charity streams and attract hundreds of thousands of viewers — but these are exhibition performances, not competitive matches. Being invited to GDQ is a mark of community recognition, not a seeded playoff position.
+        </p>
+        <p>
+          The speedrunning community generally does not self-describe as an esport. The activity shares esport's competitive ethos and audience size, but its structure, incentive system, and culture are distinct.
+        </p>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- DO SPEEDRUNNERS GET PAID                                       -->
+      <!-- ============================================================ -->
+      <section aria-labelledby="money">
+        <h2 id="money" class="text-2xl font-bold text-white mb-4">Do speedrunners get paid?</h2>
+        <p class="mb-3">
+          The vast majority of speedrunners are hobbyists who earn nothing directly from running. A small number generate income through:
+        </p>
+        <ul class="space-y-3 mb-4">
+          <li>
+            <strong class="text-gray-100">Streaming revenue</strong> — subscriptions, donations, and ad revenue on Twitch or YouTube. Only runners who have built a substantial audience earn meaningfully this way.
+          </li>
+          <li>
+            <strong class="text-gray-100">Charity marathon appearances</strong> — GDQ events raise millions for charity and attract large audiences, providing platform exposure for featured runners. GDQ does not pay runners; the exposure can build streaming audiences indirectly.
+          </li>
+          <li>
+            <strong class="text-gray-100">Sponsorships</strong> — rare, typically from gaming peripheral or software companies targeting the speedrunning or competitive gaming audience.
+          </li>
+        </ul>
+        <p>
+          The barrier to entry remains the game itself — any player with a copy and a timer can start competing on a leaderboard. The ecosystem rewards visibility and consistency, not just top-tier times.
+        </p>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- GLOSSARY                                                       -->
+      <!-- ============================================================ -->
+      <section aria-labelledby="glossary">
+        <h2 id="glossary" class="text-2xl font-bold text-white mb-4">Speedrunning slang & quick glossary</h2>
+        <p class="text-gray-400 text-sm mb-5">
+          Terms defined in the sections above are not repeated here. This table covers the remaining vocabulary you'll encounter on leaderboards and in speedrunning communities.
+        </p>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse" aria-label="Speedrunning glossary">
+            <thead>
+              <tr class="border-b border-gray-700">
+                <th scope="col" class="pb-3 pr-6 text-left text-xs text-gray-400 font-semibold w-36">Term</th>
+                <th scope="col" class="pb-3 text-left text-xs text-gray-400 font-semibold">Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 pr-6 text-gray-200 font-medium">WR</td>
+                <td class="py-3 text-gray-400">World Record — the fastest verified time for a given game and category on the leaderboard.</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 pr-6 text-gray-200 font-medium">PB</td>
+                <td class="py-3 text-gray-400">Personal Best — a runner's own fastest verified time in a category. Not necessarily a WR.</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 pr-6 text-gray-200 font-medium">SoB</td>
+                <td class="py-3 text-gray-400">Sum of Best — the sum of a runner's fastest individual splits across all segments. Represents a theoretical perfect run; rarely achievable in a single attempt.</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 pr-6 text-gray-200 font-medium">IL</td>
+                <td class="py-3 text-gray-400">Individual Level — a run of a single level or stage rather than the full game. IL leaderboards track the fastest times per stage.</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 pr-6 text-gray-200 font-medium">CE</td>
+                <td class="py-3 text-gray-400">Category Extension — a community-created category with stricter, unusual, or novelty constraints (e.g. "no damage", "blindfolded", "pacifist"). Tracked on a sub-leaderboard, not the main board.</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 pr-6 text-gray-200 font-medium">GDQ</td>
+                <td class="py-3 text-gray-400">Games Done Quick — a bi-annual speedrunning marathon raising money for charity (Prevent Cancer Foundation, Doctors Without Borders). AGDQ (January) and SGDQ (summer) are the two main events.</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 pr-6 text-gray-200 font-medium">Marathon</td>
+                <td class="py-3 text-gray-400">A long-format live speedrunning event, typically for charity or audience entertainment. Runs are selected for entertainment value as well as speed.</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 pr-6 text-gray-200 font-medium">Blindfolded</td>
+                <td class="py-3 text-gray-400">A run completed with no visual input — the runner is literally blindfolded and relies entirely on audio cues, muscle memory, and frame-counting. A popular category extension for well-understood games.</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 pr-6 text-gray-200 font-medium">ACE</td>
+                <td class="py-3 text-gray-400">Arbitrary Code Execution — a glitch that lets the runner execute custom code in the game's memory, sometimes used to jump directly to the credits or trigger the end sequence with a single input.</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 pr-6 text-gray-200 font-medium">Sub-X</td>
+                <td class="py-3 text-gray-400">Completing a run in under a round-number time barrier (e.g. "sub-hour", "sub-10"). Breaking a sub-X threshold is a common community milestone.</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 pr-6 text-gray-200 font-medium">Reset</td>
+                <td class="py-3 text-gray-400">Abandoning a run early to start over — typically after a missed tech, bad RNG, or a pace that can't reach a PB. "Hard reset" means restarting the console or game entirely.</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 pr-6 text-gray-200 font-medium">Mashing</td>
+                <td class="py-3 text-gray-400">Pressing a button repeatedly as fast as possible to advance through slow input-driven sequences — dialogue boxes, escape animations, or mashing-dependant actions.</td>
+              </tr>
+              <tr>
+                <td class="py-3 pr-6 text-gray-200 font-medium">Optimised</td>
+                <td class="py-3 text-gray-400">A run where most major time-saves are correctly executed. "Fully optimised" suggests little or no meaningful time is left on the table, though full optimisation is rarely achieved.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- CLOSING / CTA                                                  -->
+      <!-- ============================================================ -->
+      <section aria-labelledby="try-it" class="border-t border-gray-800 pt-10">
+        <h2 id="try-it" class="text-xl font-bold text-white mb-4">Try it yourself</h2>
+        <p class="mb-4">
+          The fastest way to understand speedrunning is to time a run yourself. The <a href="/speedrun-timer/" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">free speedrun timer</a> on this site handles named splits, PB comparison, and hotkeys — no install, no account. If you need something to time, the <a href="/speedrun-game/" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">browser speedrun platformer</a> has 8 levels and an in-game millisecond timer.
+        </p>
+        <p class="text-sm text-gray-400">
+          Browse verified world-record data and category trackers: <a href="/speedruns/" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">speedrun hub →</a>
+        </p>
+      </section>
+
+    </div>
+  </div>
+</Base>
