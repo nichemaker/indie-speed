@@ -1,0 +1,83 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const SITE = 'https://www.indiespeedrun.com';
+
+const breadcrumbs = [
+  { name: 'Home', url: SITE + '/' },
+  { name: 'Speedruns', url: SITE + '/speedruns/' },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Speedrun World Records',
+  description: 'Current speedrun world records for Minecraft, Super Mario 64, Hollow Knight: Silksong, and more. Updated regularly, sourced from speedrun.com.',
+  url: `${SITE}/speedruns/`,
+  author: { '@type': 'Organization', name: 'IndieSpeedRun', url: SITE },
+};
+---
+
+<Base
+  title="Speedrun World Records — Minecraft, SM64 & More | IndieSpeedRun"
+  description="Current speedrun world records for Minecraft Java RSG, Super Mario 64, Hollow Knight: Silksong, and more. Updated regularly, sourced from speedrun.com."
+  canonicalPath="/speedruns/"
+  breadcrumbs={breadcrumbs}
+  jsonLd={articleSchema}
+>
+  <div class="max-w-4xl mx-auto px-4 py-8">
+
+    <nav class="text-sm text-gray-400 mb-8 flex gap-2">
+      <a href="/" class="hover:text-gray-300">Home</a>
+      <span>/</span>
+      <span class="text-gray-300">Speedruns</span>
+    </nav>
+
+    <h1 class="text-3xl font-bold text-white mb-3">Speedrun World Records</h1>
+    <p class="text-gray-300 text-lg mb-10 max-w-2xl">
+      Current world records across the most-watched speedrun categories. Each page carries a visible Updated stamp — the maintenance record is the product.
+    </p>
+
+    <div class="grid sm:grid-cols-2 gap-5 mb-16">
+
+      <a href="/speedruns/minecraft-speedrun-world-record/" class="group block border border-gray-800 hover:border-indigo-500 rounded-xl p-6 transition-colors">
+        <div class="text-xs text-indigo-400 font-semibold uppercase tracking-wide mb-2">Live tracker</div>
+        <h2 class="text-lg font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">Minecraft Speedrun World Record</h2>
+        <p class="text-gray-400 text-sm">
+          RSG, Set Seed, All Advancements, Bedrock — all categories with version splits, sourced from speedrun.com.
+        </p>
+      </a>
+
+      <div class="border border-gray-800 rounded-xl p-6 opacity-50">
+        <div class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-2">Coming soon</div>
+        <h2 class="text-lg font-bold text-gray-400 mb-2">Super Mario 64 Speedrun WR</h2>
+        <p class="text-gray-500 text-sm">
+          16-star, 1-star, 0-star, and 120-star categories.
+        </p>
+      </div>
+
+      <div class="border border-gray-800 rounded-xl p-6 opacity-50">
+        <div class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-2">Coming soon</div>
+        <h2 class="text-lg font-bold text-gray-400 mb-2">Silksong Speedrun WR</h2>
+        <p class="text-gray-500 text-sm">
+          Hollow Knight: Silksong — any%, all quests, and glitched categories.
+        </p>
+      </div>
+
+      <a href="/speedruns/what-is-speedrunning/" class="group block border border-gray-800 hover:border-indigo-500 rounded-xl p-6 transition-colors opacity-50 pointer-events-none">
+        <div class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-2">Coming soon</div>
+        <h2 class="text-lg font-bold text-gray-400 mb-2">What is speedrunning?</h2>
+        <p class="text-gray-500 text-sm">
+          Categories, timing methods, rules, and how to start.
+        </p>
+      </a>
+
+    </div>
+
+    <div class="border-t border-gray-800 pt-8 text-sm text-gray-400 space-y-2">
+      <p>All records sourced from <a href="https://www.speedrun.com" target="_blank" rel="noopener" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">speedrun.com</a>. Each page shows its last verification date.</p>
+      <p>Want to time your own runs? Use the <a href="/speedrun-timer/" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300">free speedrun timer</a> — splits, PB tracking, hotkeys, no account.</p>
+    </div>
+
+  </div>
+</Base>

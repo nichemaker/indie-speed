@@ -1,0 +1,74 @@
+{
+  "game": "Minecraft: Java Edition",
+  "as_of": "2026-06-22",
+  "updatedAt": "2026-06-22",
+  "headline": {
+    "category": "Any% RSG (Java 1.16.1)",
+    "time": "6:50.359",
+    "timeRta": "6:56.720",
+    "runner": "lowk3y_",
+    "date": "2025-06-11",
+    "verified": true
+  },
+  "videoId": "rVs0EdiVefM",
+  "records": [
+    {
+      "category": "Any% RSG",
+      "subcategory": "Java 1.16.1",
+      "time": "6:50.359",
+      "timeRta": "6:56.720",
+      "runner": "lowk3y_",
+      "date": "2025-06-11",
+      "edition": "Java",
+      "version": "1.16.1",
+      "sourceUrl": "https://www.speedrun.com/mc/runs/m7l7960y",
+      "verified": true,
+      "as_of": "2026-06-22",
+      "notes": "IGT is the ranked time on speedrun.com. Seed: -8717682453392808086. Verified 2025-06-16."
+    },
+    {
+      "category": "Any% SSG",
+      "subcategory": "Java 1.16.1",
+      "time": "sub-2:00",
+      "runner": "TBD",
+      "date": "TBD",
+      "edition": "Java",
+      "version": "1.16.1",
+      "sourceUrl": "https://www.speedrun.com/mc",
+      "verified": false,
+      "as_of": "2026-06-22",
+      "notes": "Set Seed Glitchless. Predetermined seed with fully memorised optimal route. Significantly faster than RSG due to no RNG on world generation."
+    },
+    {
+      "category": "All Advancements",
+      "subcategory": "Java",
+      "time": "~2h 05m",
+      "runner": "TBD",
+      "date": "TBD",
+      "edition": "Java",
+      "version": "1.16+",
+      "sourceUrl": "https://www.speedrun.com/mc",
+      "verified": false,
+      "as_of": "2026-06-22",
+      "notes": "Complete all 96 Minecraft advancements across Overworld, Nether, End, and crafting. Multi-hour run requiring broad game knowledge."
+    },
+    {
+      "category": "Any% RSG",
+      "subcategory": "Bedrock",
+      "time": "TBD",
+      "runner": "TBD",
+      "date": "TBD",
+      "edition": "Bedrock",
+      "version": "Latest stable",
+      "sourceUrl": "https://www.speedrun.com/mcbe",
+      "verified": false,
+      "as_of": "2026-06-22",
+      "notes": "Bedrock Edition is tracked as a separate game on speedrun.com/mcbe. Different mechanics, physics, and RNG from Java Edition."
+    }
+  ],
+  "backlogLinks": [
+    "/speedruns/super-mario-64-speedrun/ — compare: SM64 category structure (build in CC-4)",
+    "/speedruns/silksong-speedrun/ — related WR tracker (build in CC-4)",
+    "/speedruns/what-is-speedrunning/ — 'new to speedrunning?' onramp (build in CC-4)"
+  ]
+}
